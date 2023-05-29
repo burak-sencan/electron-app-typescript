@@ -1,13 +1,18 @@
 import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+// import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+
+let mainWindow: BrowserWindow | null = null
+let splash: BrowserWindow
 
 function createWindow(): void {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    center: true,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -17,8 +22,26 @@ function createWindow(): void {
     }
   })
 
+  // create a new `splash`-Window
+  splash = new BrowserWindow({
+    width: 900,
+    height: 600,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true
+  })
+
+  splash.on('ready-to-show', () => {
+    splash.show()
+  })
+
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
+    setTimeout(() => {
+      splash.destroy()
+      if (mainWindow) {
+        mainWindow.show()
+      }
+    }, 4000)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -26,11 +49,16 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
+  //HMR for renderer base on electron-vite cli.
+  //Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    console.log(__dirname)
+    splash.loadFile(join(__dirname, '../../src/main/splash.html'))
+    splash.center()
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
+    splash.loadFile(join(__dirname, '../../src/main/splash.html'))
+    splash.center()
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
@@ -42,6 +70,15 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
+  // prevent second instance run
+  // requestSingleInstanceLock returns true when only run one instance
+  if (!app.requestSingleInstanceLock()) {
+    app.quit()
+    process.exit(0)
+  } else {
+    createWindow()
+  }
+
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
@@ -49,13 +86,19 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  createWindow()
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      // Focus on the main window if the user tried to open another
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+    }
   })
+})
+
+app.on('activate', function () {
+  // On macOS it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
