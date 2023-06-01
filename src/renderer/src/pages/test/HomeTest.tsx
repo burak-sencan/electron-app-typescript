@@ -1,32 +1,29 @@
+import { RootState } from '@renderer/app/store'
+import { setSelectedMethod } from '@renderer/features/methodSlice'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const HomeTest = () => {
   const navigate = useNavigate()
-  const [method, setMethod] = useState('')
+  const dispatch = useDispatch()
 
-  const methods = [
-    { id: 1, name: 'method 1' },
-    { id: 2, name: 'method 2' },
-    { id: 3, name: 'method 3' },
-    { id: 4, name: 'method 4' },
-    { id: 5, name: 'method 5' }
-  ]
+  const { methods, selectedMethod } = useSelector((state: RootState) => state.method) // Access the counter state from the Redux store
 
   return (
     <div className="flex flex-col">
-      {methods.map((method) => (
+      {methods.map((method, idx) => (
         <button
           className="self-baseline"
-          key={method.id}
+          key={idx}
           onClick={() => {
-            setMethod(method.name)
+            dispatch(setSelectedMethod(method))
           }}
         >
-          {method.name}
+          {method?.definations?.name}
         </button>
       ))}
-      <p>Selected Method : {method}</p>
+      <p>Selected Method : {selectedMethod?.definations?.name}</p>
       <button
         className="self-baseline border p-4"
         onClick={() => {

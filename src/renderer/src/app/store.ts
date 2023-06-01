@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import authReducer from '@renderer/features/authSlice'
 import chartReducer from '@renderer/features/chartSlice'
 import specimentReducer from '@renderer/features/specimentSlice'
+import methodReducer from '@renderer/features/methodSlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     chart: chartReducer,
-    speciments: specimentReducer
+    speciments: specimentReducer,
+    method: methodReducer
   }
 })
 

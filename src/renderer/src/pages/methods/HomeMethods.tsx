@@ -1,14 +1,11 @@
+import { RootState } from '@renderer/app/store'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const HomeMethods = () => {
   const navigate = useNavigate()
-  const methods = [
-    { id: 1, name: 'method 1' },
-    { id: 2, name: 'method 2' },
-    { id: 3, name: 'method 3' },
-    { id: 4, name: 'method 4' },
-    { id: 5, name: 'method 5' }
-  ]
+  const { methods } = useSelector((state: RootState) => state.method) // Access the counter state from the Redux store
+
   return (
     <div className="flex flex-col gap-1">
       <button
@@ -20,9 +17,9 @@ const HomeMethods = () => {
         Create Method
       </button>
       <hr />
-      {methods.map((method) => (
-        <div className="flex gap-4" key={method.id}>
-          {method.name}
+      {methods.map((method, idx) => (
+        <div className="flex gap-4" key={idx}>
+          {method.definations.name}
           <button className="self-baseline border">Edit</button>
           <button className="self-baseline border">Delete</button>
           <button className="self-baseline border">Copy</button>

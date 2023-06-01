@@ -1,4 +1,6 @@
+import { createMethod } from '@renderer/features/methodSlice'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 interface Method {
   definations: {
@@ -20,6 +22,7 @@ interface Method {
 }
 
 const CreateMethod = () => {
+  const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState(0)
   const [methodState, setMethodState] = useState<Method>({
     definations: {
@@ -45,30 +48,35 @@ const CreateMethod = () => {
   }
   return (
     <div>
-      <div className="flex gap-4 border">
-        <button
-          className={activeTab === 0 ? 'bg-slate-100' : ''}
-          onClick={() => handleTabChange(0)}
-        >
-          Definations
-        </button>
-        <button
-          className={activeTab === 1 ? 'bg-slate-100' : ''}
-          onClick={() => handleTabChange(1)}
-        >
-          PhysicalProperties
-        </button>
-        <button
-          className={activeTab === 2 ? 'bg-slate-100' : ''}
-          onClick={() => handleTabChange(2)}
-        >
-          Calculations
-        </button>
-        <button
-          className={activeTab === 3 ? 'bg-slate-100' : ''}
-          onClick={() => handleTabChange(3)}
-        >
-          TestEnd
+      <div className="flex  justify-between border">
+        <div className="flex gap-4">
+          <button
+            className={activeTab === 0 ? 'bg-slate-100' : ''}
+            onClick={() => handleTabChange(0)}
+          >
+            Definations
+          </button>
+          <button
+            className={activeTab === 1 ? 'bg-slate-100' : ''}
+            onClick={() => handleTabChange(1)}
+          >
+            PhysicalProperties
+          </button>
+          <button
+            className={activeTab === 2 ? 'bg-slate-100' : ''}
+            onClick={() => handleTabChange(2)}
+          >
+            Calculations
+          </button>
+          <button
+            className={activeTab === 3 ? 'bg-slate-100' : ''}
+            onClick={() => handleTabChange(3)}
+          >
+            TestEnd
+          </button>
+        </div>
+        <button className={''} onClick={() => dispatch(createMethod(methodState))}>
+          Save
         </button>
       </div>
 
