@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from '../features/countSlice'
-import authSlice from '@renderer/features/authSlice'
-
+import authReducer from '@renderer/features/authSlice'
+import chartReducer from '@renderer/features/chartSlice'
+import specimentReducer from '@renderer/features/specimentSlice'
 
 export const store = configureStore({
   reducer: {
-    auth: authSlice,
-    counter: counterReducer,
-  },
+    auth: authReducer,
+    chart: chartReducer,
+    speciments: specimentReducer
+  }
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

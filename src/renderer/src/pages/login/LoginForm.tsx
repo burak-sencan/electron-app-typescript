@@ -1,7 +1,6 @@
-
 import { RootState } from '@renderer/app/store'
 import { login, onChange } from '@renderer/features/authSlice'
-import { useEffect } from 'react'
+import { FormEvent, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,7 +9,8 @@ const LoginForm = () => {
   const dispatch = useDispatch()
   const { password, isLogged } = useSelector((state: RootState) => state.auth)
 
-  const handlelogin = () => {
+  const handlelogin = (e: FormEvent) => {
+    e.preventDefault()
     dispatch(login())
   }
   useEffect(() => {
@@ -20,32 +20,32 @@ const LoginForm = () => {
   }, [isLogged])
 
   return (
-    <div className="flex grow flex-col items-center justify-center gap-4 bg-gray-50 py-12">
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Sign up
-      </h2>
-
-      <div className="w-2/3 bg-white  px-8 py-10 shadow lg:w-1/3 ">
-        <form className="flex h-full flex-col  items-center justify-center space-y-6">
-          <input
-            className="w-full bg-slate-50 p-4 text-center focus:outline-none"
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={(e) => dispatch(onChange(e.target.value))}
-          />
-          <button
-            className="w-1/3 p-2 shadow"
-            type="button"
-            onClick={handlelogin}
-          >
-            Login
-          </button>
-          <p className="self-end text-lime-400">usb valid!</p>
-        </form>
+    <>
+      <form
+        className="flex flex-col  grow gap-8 w-1/2 items-center justify-center space-y-6"
+        onSubmit={handlelogin}
+      >
+        <h2 className="text-3xl font-extrabold">Sign In</h2>
+        <input
+          className="w-full bg-slate-200 p-2 rounded-sm text-center focus:outline-none"
+          type="password"
+          name="password"
+          id="password"
+          value={password}
+          onChange={(e) => dispatch(onChange(e.target.value))}
+        />
+        <button
+          className="w-2/3 p-2 border border-yellow-400 rounded-md hover:bg-yellow-500/20 transition"
+          type="submit"
+        >
+          Login
+        </button>
+      </form>
+      <div className="self-end flex justify-between w-full">
+        <p className="self-end text-sm">Version 1.0.0</p>
+        <p className="self-start">USB Not Valid !</p>
       </div>
-    </div>
+    </>
   )
 }
 export default LoginForm
