@@ -1,21 +1,6 @@
 import ReactEcharts from 'echarts-for-react'
 import { useEffect, useState } from 'react'
 
-import { ResponsiveLine } from '@nivo/line'
-
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LabelList,
-  Bar
-} from 'recharts'
-
 const Test = () => {
   const [elengation, setElengation] = useState<number[]>([0])
   const [load, setLoad] = useState<number[]>([0])
@@ -47,7 +32,7 @@ const Test = () => {
       },
       backgroundColor: 'rgba(255, 255, 255, 0.9)',
 
-      position: function (point, params, dom, rect, size) {
+      position: function (point) {
         // fixed at top
         return [point[0] + 20, point[1] + 20]
       },

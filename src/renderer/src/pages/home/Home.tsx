@@ -2,7 +2,6 @@ import { logout } from '@renderer/features/authSlice'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Stage, Layer, Shape, Rect, Text, Circle, Line } from 'react-konva'
 
 const Home = () => {
   const { t } = useTranslation()

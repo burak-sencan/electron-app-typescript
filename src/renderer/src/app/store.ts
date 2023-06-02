@@ -3,13 +3,15 @@ import authReducer from '@renderer/features/authSlice'
 import chartReducer from '@renderer/features/chartSlice'
 import specimentReducer from '@renderer/features/specimentSlice'
 import methodReducer from '@renderer/features/methodSlice'
+import testReducer from '@renderer/features/testSlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     chart: chartReducer,
     speciments: specimentReducer,
-    method: methodReducer
+    method: methodReducer,
+    test: testReducer
   }
 })
 

@@ -1,45 +1,118 @@
 import { createMethod } from '@renderer/features/methodSlice'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import Definations from './MethodTabs/Definations'
+import PhysicalProperties from './MethodTabs/PhysicalProperties'
+import Calculations from './MethodTabs/Calculations'
+import TestEnd from './MethodTabs/TestEnd'
 
 interface Method {
+  id: string
   definations: {
-    name: string
-    defination: string
+    name: {
+      custom: boolean
+      customVal: boolean
+      val: string
+    }
+    defination: {
+      custom: boolean
+      customVal: boolean
+      val: string
+    }
   }
   physicalProperties: {
-    width: number
-    radious: number
+    width: {
+      custom: boolean
+      customVal: boolean
+      val: string
+    }
+    radious: {
+      custom: boolean
+      customVal: boolean
+      val: string
+    }
   }
   calculations: {
-    elengation: number
-    lastHeight: number
+    elengation: {
+      custom: boolean
+      customVal: boolean
+      val: number
+    }
+    lastHeight: {
+      custom: boolean
+      customVal: boolean
+      val: number
+    }
   }
   testEnd: {
-    break: number
-    lastLoad: number
+    break: {
+      custom: boolean
+      customVal: boolean
+      val: number
+    }
+    lastLoad: {
+      custom: boolean
+      customVal: boolean
+      val: number
+    }
   }
 }
 
 const CreateMethod = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const [activeTab, setActiveTab] = useState(0)
   const [methodState, setMethodState] = useState<Method>({
+    id: crypto.randomUUID(),
     definations: {
-      name: '',
-      defination: ''
+      name: {
+        custom: true,
+        customVal: false,
+        val: ''
+      },
+      defination: {
+        custom: false,
+        customVal: false,
+        val: ''
+      }
     },
     physicalProperties: {
-      width: 0,
-      radious: 0
+      width: {
+        custom: true,
+        customVal: false,
+        val: ''
+      },
+      radious: {
+        custom: true,
+        customVal: false,
+        val: ''
+      }
     },
     calculations: {
-      elengation: 0,
-      lastHeight: 0
+      elengation: {
+        custom: true,
+        customVal: false,
+        val: 0
+      },
+      lastHeight: {
+        custom: false,
+        customVal: false,
+        val: 0
+      }
     },
     testEnd: {
-      break: 10,
-      lastLoad: 20
+      break: {
+        custom: false,
+        customVal: false,
+        val: 0
+      },
+      lastLoad: {
+        custom: false,
+        customVal: false,
+        val: 0
+      }
     }
   })
 
@@ -75,7 +148,13 @@ const CreateMethod = () => {
             TestEnd
           </button>
         </div>
-        <button className={''} onClick={() => dispatch(createMethod(methodState))}>
+        <button
+          className={''}
+          onClick={() => {
+            dispatch(createMethod(methodState))
+            navigate('/dashboard/home-methods')
+          }}
+        >
           Save
         </button>
       </div>
@@ -93,125 +172,3 @@ const CreateMethod = () => {
   )
 }
 export default CreateMethod
-
-const Definations = ({ setMethodState, methodState }) => {
-  const handleMaterialChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setMethodState((prevState) => ({
-      ...prevState,
-      definations: {
-        ...prevState.definations,
-        [name]: value
-      }
-    }))
-  }
-  return (
-    <div className="flex flex-col gap-4">
-      <input
-        type="text"
-        name="name"
-        placeholder="name"
-        value={methodState.definations.name}
-        onChange={handleMaterialChange}
-      />
-      <input
-        type="text"
-        name="defination"
-        placeholder="defination"
-        value={methodState.definations.defination}
-        onChange={handleMaterialChange}
-      />
-    </div>
-  )
-}
-const PhysicalProperties = ({ setMethodState, methodState }) => {
-  const handlePhysicalPropertiesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setMethodState((prevState) => ({
-      ...prevState,
-      physicalProperties: {
-        ...prevState.physicalProperties,
-        [name]: value
-      }
-    }))
-  }
-  return (
-    <div className="flex flex-col gap-4">
-      <input
-        type="text"
-        name="width"
-        placeholder="width"
-        value={methodState.physicalProperties.width}
-        onChange={handlePhysicalPropertiesChange}
-      />
-      <input
-        type="text"
-        name="radious"
-        placeholder="radious"
-        value={methodState.physicalProperties.radious}
-        onChange={handlePhysicalPropertiesChange}
-      />
-    </div>
-  )
-}
-
-const Calculations = ({ setMethodState, methodState }) => {
-  const handleMaterialChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setMethodState((prevState) => ({
-      ...prevState,
-      calculations: {
-        ...prevState.calculations,
-        [name]: value
-      }
-    }))
-  }
-  return (
-    <div className="flex flex-col gap-4">
-      <input
-        type="text"
-        name="elengation"
-        placeholder="elengation"
-        value={methodState.calculations.elengation}
-        onChange={handleMaterialChange}
-      />
-      <input
-        type="text"
-        name="lastHeight"
-        placeholder="lastHeight"
-        value={methodState.definations.lastHeight}
-        onChange={handleMaterialChange}
-      />
-    </div>
-  )
-}
-const TestEnd = ({ setMethodState, methodState }) => {
-  const handleMaterialChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setMethodState((prevState) => ({
-      ...prevState,
-      testEnd: {
-        ...prevState.testEnd,
-        [name]: value
-      }
-    }))
-  }
-  return (
-    <div className="flex flex-col gap-4">
-      <input
-        type="text"
-        name="break"
-        placeholder="break"
-        value={methodState.calculations.break}
-        onChange={handleMaterialChange}
-      />
-      <input
-        type="text"
-        name="lastLoad"
-        placeholder="lastLoad"
-        value={methodState.definations.lastLoad}
-        onChange={handleMaterialChange}
-      />
-    </div>
-  )
-}

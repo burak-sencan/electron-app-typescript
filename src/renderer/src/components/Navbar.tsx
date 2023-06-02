@@ -38,7 +38,7 @@ const Navbar = () => {
   }, [time])
 
   return (
-    <div className="flex items-center justify-between  bg-slate-100 p-4">
+    <div className="flex items-center justify-between  p-4">
       <div>
         <Link className="center rounded-md border bg-slate-50 p-2" to="/home">
           Home

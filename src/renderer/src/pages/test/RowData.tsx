@@ -5,7 +5,7 @@ const RowData = () => {
   const { timeArr, loadArr, elengationArr } = useSelector((state: RootState) => state.chart) // Access the chart state from the Redux store
 
   return (
-    <div className="h-96 overflow-auto">
+    <div className="h-60 overflow-auto">
       <table className=" table-auto">
         <thead>
           <tr>
