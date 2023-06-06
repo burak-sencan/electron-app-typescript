@@ -52,12 +52,12 @@ function createWindow(): void {
   //HMR for renderer base on electron-vite cli.
   //Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    splash.loadFile(join(__dirname, '../../src/renderer/src/assets/splash/splash.html'))
+    splash.loadFile(join(__dirname, '../../src/renderer/splash.html'))
     splash.center()
     mainWindow.webContents.openDevTools()
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    splash.loadFile(join(__dirname, '../renderer/assets/splash.html'))
+    splash.loadFile(join(__dirname, '../renderer/splash.html'))
     splash.center()
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }

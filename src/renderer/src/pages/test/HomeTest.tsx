@@ -17,6 +17,7 @@ const HomeTest = () => {
           key={idx}
           onClick={() => {
             dispatch(setSelectedMethod(method))
+            console.log(method)
           }}
         >
           {method?.definations?.name.val}

@@ -1,13 +1,11 @@
 import { RootState } from '@renderer/app/store'
-import { addSpeciment } from '@renderer/features/specimentSlice'
-import { useState } from 'react'
+import { addSpeciment, setSelectedSpeciment } from '@renderer/features/specimentSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Speciments = () => {
   const { speciments } = useSelector((state: RootState) => state.speciments) // Access the counter state from the Redux store
-  const dispatch = useDispatch()
   const { selectedMethod } = useSelector((state: RootState) => state.method) // Access the counter state from the Redux store
-  const [method, setMethod] = useState(selectedMethod)
+  const dispatch = useDispatch()
 
   return (
     <div className="flex flex-col items-start">
@@ -15,7 +13,7 @@ const Speciments = () => {
         <button
           key={speciment.id}
           onClick={() => {
-            console.log(speciment)
+            dispatch(setSelectedSpeciment(speciment))
           }}
         >
           {speciment.id}
@@ -23,7 +21,7 @@ const Speciments = () => {
       ))}
       <button
         onClick={() => {
-          dispatch(addSpeciment(method))
+          dispatch(addSpeciment({ ...selectedMethod }))
         }}
       >
         Add

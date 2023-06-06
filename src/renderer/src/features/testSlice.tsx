@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export interface TestState {
-  tests: object[]
+  tests: any
 }
 
 const initialState: TestState = {
@@ -12,12 +12,16 @@ export const testSlice = createSlice({
   name: 'test',
   initialState,
   reducers: {
-    startTest: (state, action: PayloadAction<object>) => {
-      state.tests.push(action.payload)
+    completeTest: (state, action: PayloadAction<object>) => {
+      state.tests.push({
+        id: crypto.randomUUID(),
+        name: 'test name ...',
+        speciments: action.payload
+      })
     }
   }
 })
 
-export const { startTest } = testSlice.actions
+export const { completeTest } = testSlice.actions
 
 export default testSlice.reducer
