@@ -1,6 +1,5 @@
 import { RootState } from '@renderer/app/store'
 import { setSelectedMethod } from '@renderer/features/methodSlice'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -14,16 +13,17 @@ const HomeTest = () => {
     <div className="flex flex-col">
       {methods.map((method, idx) => (
         <button
-          className="self-baseline"
+          className={method === selectedMethod ? 'bg-slate-100' : ''}
           key={idx}
           onClick={() => {
             dispatch(setSelectedMethod(method))
+            console.log(method)
           }}
         >
-          {method?.definations?.name}
+          {method?.definations?.name.val}
         </button>
       ))}
-      <p>Selected Method : {selectedMethod?.definations?.name}</p>
+
       <button
         className="self-baseline border p-4"
         onClick={() => {

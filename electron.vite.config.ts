@@ -15,6 +15,15 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [react()]
+    plugins: [react()],
+    build: {
+      rollupOptions: {
+        input: {
+          splash: resolve(__dirname, 'src/renderer/splash.html'),
+          index: resolve(__dirname, 'src/renderer/index.html'),
+          splashpng: resolve(__dirname, 'src/renderer/splash.png')
+        }
+      }
+    }
   }
 })

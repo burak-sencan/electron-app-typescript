@@ -1,8 +1,10 @@
 import { RootState } from '@renderer/app/store'
-import { useSelector } from 'react-redux'
+import { copyMethod, deleteMethod } from '@renderer/features/methodSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const HomeMethods = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { methods } = useSelector((state: RootState) => state.method) // Access the counter state from the Redux store
 
@@ -19,10 +21,26 @@ const HomeMethods = () => {
       <hr />
       {methods.map((method, idx) => (
         <div className="flex gap-4" key={idx}>
-          {method.definations.name}
-          <button className="self-baseline border">Edit</button>
-          <button className="self-baseline border">Delete</button>
-          <button className="self-baseline border">Copy</button>
+          {method.definations.name.val}
+          <button onClick={() => {}} className="self-baseline border">
+            Edit
+          </button>
+          <button
+            onClick={() => {
+              dispatch(deleteMethod(method.id))
+            }}
+            className="self-baseline border"
+          >
+            Delete
+          </button>
+          <button
+            onClick={() => {
+              dispatch(copyMethod(method))
+            }}
+            className="self-baseline border"
+          >
+            Copy
+          </button>
         </div>
       ))}
     </div>
