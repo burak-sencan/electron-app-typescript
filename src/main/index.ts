@@ -124,8 +124,7 @@ function createWindow(): void {
     return methods
   })
 
-  ipcMain.handle('deleteMethod', async (event, data) => {
-    event
+  ipcMain.handle('deleteMethod', async (_event, data) => {
     const folderPath = path.join(app.getPath('documents'), 'methods')
     const fileName = `${data.definations.name.val}--${data.id.slice(8)}.json`
     const filePath = path.join(folderPath, fileName)
