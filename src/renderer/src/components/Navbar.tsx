@@ -39,7 +39,7 @@ const Navbar = () => {
   }
 
   const saveTest = async (speciments) => {
-    const result = await window.electron.openFile(speciments)
+    const result = await window.electron.complateTest(speciments)
     console.log(result)
   }
   const handleSaveSettings = async () => {

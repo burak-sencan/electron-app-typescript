@@ -10,9 +10,9 @@ contextBridge.exposeInMainWorld('electron', {
       throw error
     }
   },
-  openFile: async (data) => {
+  complateTest: async (data) => {
     try {
-      const filePath = await ipcRenderer.invoke('openFile', data)
+      const filePath = await ipcRenderer.invoke('complateTest', data)
       return filePath
     } catch (error) {
       console.error('IPC error:', error)

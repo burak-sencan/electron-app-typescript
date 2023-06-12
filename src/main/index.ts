@@ -68,10 +68,14 @@ function createWindow(): void {
     }
   })
 
-  ipcMain.handle('openFile', async (_event, data) => {
-    const fileName = 'example.json'
-    const filePath = path.join(app.getPath('documents'), fileName)
+  ipcMain.handle('complateTest', async (_event, data) => {
+    const fileName = 'test.json'
+    const folderPath = path.join(app.getPath('documents'), 'tests')
+
+    const filePath = path.join(folderPath, fileName)
     let jsonData = JSON.stringify(data)
+
+    fs.mkdirSync(folderPath, { recursive: true })
     fs.writeFileSync(filePath, jsonData)
     return filePath
   })
