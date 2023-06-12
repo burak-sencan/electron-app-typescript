@@ -1,22 +1,79 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from 'electron'
 
-// Custom APIs for renderer
-const api = {}
+contextBridge.exposeInMainWorld('electron', {
+  login: async (data) => {
+    try {
+      const filePath = await ipcRenderer.invoke('login', data)
+      return filePath
+    } catch (error) {
+      console.error('IPC error:', error)
+      throw error
+    }
+  },
+  openFile: async (data) => {
+    try {
+      const filePath = await ipcRenderer.invoke('openFile', data)
+      return filePath
+    } catch (error) {
+      console.error('IPC error:', error)
+      throw error
+    }
+  },
+  readSettings: async () => {
+    try {
+      const settings = await ipcRenderer.invoke('readSettings')
+      return settings
+    } catch (error) {
+      console.error('IPC error:', error)
+      throw error
+    }
+  },
+  saveSettings: async (data) => {
+    try {
+      const result = await ipcRenderer.invoke('saveSettings', data)
+      return result
+    } catch (error) {
+      console.error('IPC error:', error)
+      throw error
+    }
+  },
+  saveMethod: async (data) => {
+    try {
+      const result = await ipcRenderer.invoke('saveMethod', data)
+      return result
+    } catch (error) {
+      console.error('IPC error:', error)
+      throw error
+    }
+  },
+  getMethods: async () => {
+    try {
+      const result = await ipcRenderer.invoke('getMethods')
+      return result
+    } catch (error) {
+      console.error('IPC error:', error)
+      throw error
+    }
+  },
+  deleteMethod: async (data) => {
+    try {
+      const result = await ipcRenderer.invoke('deleteMethod', data)
+      return result
+    } catch (error) {
+      console.error('IPC error:', error)
+      throw error
+    }
+  },
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
+  generateRandomNumber: () => {
+    ipcRenderer.send('generateRandomNumber')
+  },
+  subscribeToRandomNumber: (callback) => {
+    ipcRenderer.on('randomNumber', (_event, randomNumber) => {
+      callback(randomNumber)
+    })
+  },
+  unsubscribeFromRandomNumber: () => {
+    ipcRenderer.removeAllListeners('randomNumber')
   }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
-}
+})

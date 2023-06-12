@@ -4,12 +4,12 @@ import StatusBar from './StatusBar'
 
 const Layout = () => {
   return (
-    <div className="flex flex-col overflow-hidden h-full">
+    <div className="flex h-full flex-col overflow-hidden">
       <Navbar />
-      <div className="p-4 h-full">
+      <div className="h-full p-4">
         <Outlet />
       </div>
-      <div className='mt-auto'>
+      <div className="mt-auto">
         <StatusBar />
       </div>
     </div>

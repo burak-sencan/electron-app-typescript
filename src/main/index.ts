@@ -1,9 +1,9 @@
-import { app, shell, BrowserWindow } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import path, { join } from 'path'
 // import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-
+const fs = require('fs')
 let mainWindow: BrowserWindow | null = null
 let splash: BrowserWindow
 
@@ -18,7 +18,8 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      nodeIntegration: true
     }
   })
 
@@ -41,13 +42,127 @@ function createWindow(): void {
       if (mainWindow) {
         mainWindow.show()
       }
-    }, 4000)
+    }, 500)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+  /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+  /*////////////////////////////////////////// N O D E . J S /////////////////////////////////////////////////////////////// */
+  /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+  ipcMain.handle('login', async (_event, data) => {
+    const fileName = 'account.json'
+    const filePath = path.join(app.getPath('documents'), fileName)
+    try {
+      let account = fs.readFile(filePath, 'utf-8')
+      account = JSON.parse(account)
+      if (account.password === data) {
+        return { status: true, message: 'Succes' }
+      } else return { status: false, message: 'Fail' }
+    } catch (error) {
+      let jsonData = JSON.stringify({ account: { password: '0000' } })
+      fs.writeFileSync(filePath, jsonData)
+      return { status: true, message: 'Dosya oluşturuldu İlk şifreniz 0000' }
+    }
+  })
+
+  ipcMain.handle('openFile', async (_event, data) => {
+    const fileName = 'example.json'
+    const filePath = path.join(app.getPath('documents'), fileName)
+    let jsonData = JSON.stringify(data)
+    fs.writeFileSync(filePath, jsonData)
+    return filePath
+  })
+
+  ipcMain.handle('readSettings', async () => {
+    const fileName = 'settings.json'
+    const filePath = path.join(app.getPath('documents'), fileName)
+    try {
+      const settings = fs.readFileSync(filePath, 'utf-8')
+      return settings
+    } catch (error) {
+      console.error('Dosya okuma hatası:', error)
+      return null
+    }
+  })
+
+  ipcMain.handle('saveSettings', async (_event, data) => {
+    const fileName = 'settings.json'
+    const filePath = path.join(app.getPath('documents'), fileName)
+    let jsonData = JSON.stringify(data)
+    fs.writeFileSync(filePath, jsonData)
+    return filePath
+  })
+
+  ipcMain.handle('saveMethod', async (_event, data) => {
+    const fileName = `${data.definations.name.val}--${data.id.slice(8)}.json`
+    const folderPath = path.join(app.getPath('documents'), 'methods')
+    const filePath = path.join(folderPath, fileName)
+    let jsonData = JSON.stringify(data)
+
+    fs.mkdirSync(folderPath, { recursive: true })
+    fs.writeFileSync(filePath, jsonData)
+
+    return filePath
+  })
+
+  ipcMain.handle('getMethods', async () => {
+    const folderPath = path.join(app.getPath('documents'), 'methods')
+    let methods: any[] = [] // Başlangıçta boş bir dizi olarak tanımlanır
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath)
+    }
+    fs.readdirSync(folderPath).forEach((fileName) => {
+      const filePath = path.join(folderPath, fileName)
+      const fileContent = fs.readFileSync(filePath, 'utf8')
+      const methodObj = JSON.parse(fileContent)
+      methods.push(methodObj)
+    })
+
+    return methods
+  })
+
+  ipcMain.handle('deleteMethod', async (event, data) => {
+    event
+    const folderPath = path.join(app.getPath('documents'), 'methods')
+    const fileName = `${data.definations.name.val}--${data.id.slice(8)}.json`
+    const filePath = path.join(folderPath, fileName)
+    const targetFolder = path.join(app.getPath('documents'), 'recovery')
+    const targetPath = path.join(app.getPath('documents'), 'recovery', fileName)
+
+    fs.mkdirSync(targetFolder, { recursive: true })
+
+    fs.copyFile(filePath, targetPath, (error) => {
+      if (error) {
+        console.error('Dosya kopyalanamadı:', error)
+        return
+      }
+
+      fs.unlink(filePath, (error) => {
+        if (error) {
+          console.error('Dosya silinemedi:', error)
+          return
+        }
+
+        console.log('Dosya başarıyla silindi ve kopyalandı.')
+        return true
+      })
+    })
+  })
+
+  ipcMain.on('generateRandomNumber', (_event) => {
+    setInterval(() => {
+      const randomNumber = Math.floor(Math.random() * 100)
+      mainWindow?.webContents.send('randomNumber', randomNumber)
+    }, 50)
+
+    // Aboneliği sonlandırmak için gerektiğinde clearInterval(interval) çağrılabilir.
+  })
+  /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+  /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+  /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
   //HMR for renderer base on electron-vite cli.
   //Load the remote URL for development or the local html file for production.

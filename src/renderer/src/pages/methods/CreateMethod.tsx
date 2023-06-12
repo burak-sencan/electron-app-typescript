@@ -119,6 +119,11 @@ const CreateMethod = () => {
   const handleTabChange = (index) => {
     setActiveTab(index)
   }
+  const handleSaveMethod = async () => {
+    await window.electron.saveMethod(methodState)
+    dispatch(createMethod(methodState))
+    navigate('/dashboard/home-methods')
+  }
   return (
     <div>
       <div className="flex  justify-between border">
@@ -148,13 +153,7 @@ const CreateMethod = () => {
             TestEnd
           </button>
         </div>
-        <button
-          className={''}
-          onClick={() => {
-            dispatch(createMethod(methodState))
-            navigate('/dashboard/home-methods')
-          }}
-        >
+        <button className={''} onClick={handleSaveMethod}>
           Save
         </button>
       </div>

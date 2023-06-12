@@ -4,6 +4,7 @@ import chartReducer from '@renderer/features/chartSlice'
 import specimentReducer from '@renderer/features/specimentSlice'
 import methodReducer from '@renderer/features/methodSlice'
 import testReducer from '@renderer/features/testSlice'
+import userSettingReducer from '@renderer/features/userSettingSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     chart: chartReducer,
     speciments: specimentReducer,
     method: methodReducer,
-    test: testReducer
+    test: testReducer,
+    setting: userSettingReducer
   }
 })
 

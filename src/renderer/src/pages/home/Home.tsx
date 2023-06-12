@@ -12,32 +12,12 @@ const Home = () => {
     dispatch(logout())
     navigate('/')
   }
+
   return (
     <div className="flex flex-col justify-between">
       <div className="flex justify-end p-2">
         <button onClick={handleLogout}> {t('logout')}</button>
       </div>
-      {/* <Stage className="border" width={window.innerWidth - 10} height={window.innerHeight - 50}>
-        <Layer>
-          <Shape
-            onClick={() => {
-              console.log('elma')
-            }}
-            sceneFunc={(context, shape) => {
-              context.beginPath()
-              context.moveTo(0, 0)
-              context.lineTo(220, 800)
-              context.quadraticCurveTo(100, 200, 500, 200)
-              context.closePath()
-              // (!) Konva specific method, it is very important
-              context.fillStrokeShape(shape)
-            }}
-            fill="#000"
-            stroke="black"
-            strokeWidth={4}
-          />
-        </Layer>
-      </Stage> */}
 
       <div className="flex gap-4 p-4">
         <Link className="center h-32 w-32 rounded-md border bg-slate-50" to="/dashboard/home-test">

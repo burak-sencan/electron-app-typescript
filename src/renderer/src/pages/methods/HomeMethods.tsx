@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 const HomeMethods = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { methods } = useSelector((state: RootState) => state.method) // Access the counter state from the Redux store
+  const { methods } = useSelector((state: RootState) => state.method) // Access the counter state from the Redux store,
 
   return (
     <div className="flex flex-col gap-1">
@@ -26,8 +26,10 @@ const HomeMethods = () => {
             Edit
           </button>
           <button
-            onClick={() => {
+            onClick={async () => {
               dispatch(deleteMethod(method.id))
+              const result = await window.electron.deleteMethod(method)
+              console.log(result)
             }}
             className="self-baseline border"
           >

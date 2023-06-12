@@ -7,6 +7,7 @@ import Speciments from './Speciments'
 import CustomMethodVariables from './CustomMethodVariables'
 
 const Test = () => {
+  const { settingsState } = useSelector((state: RootState) => state.setting) // Access the counter state from the Redux store
   const { timeArr, loadArr, elengationArr } = useSelector((state: RootState) => state.chart) // Access the counter state from the Redux store
   const [showElengation, setShowElengation] = useState(false)
   const [showLoad, setShowLoad] = useState(true)
@@ -257,7 +258,7 @@ const Test = () => {
       </div>
 
       <div className="flex w-3/5 flex-col gap-1 border">
-        <div className="h-1/2  w-full border">
+        <div className="min-h-[50%]  w-full border">
           <div className="flex gap-4 border p-2">
             <button
               onClick={() => {
@@ -278,9 +279,11 @@ const Test = () => {
           </div>
           <ReactEcharts option={option} />
         </div>
-        <div className="h-1/2 overflow-auto">
-          <RowData />
-        </div>
+        {settingsState.appearance.showRowData && (
+          <div className="min-h-[50%] overflow-auto">
+            <RowData />
+          </div>
+        )}
       </div>
     </div>
   )

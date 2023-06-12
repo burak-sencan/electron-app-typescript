@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux'
 const CustomMethodVariables = () => {
   const { selectedSpeciment } = useSelector((state: RootState) => state.speciments)
 
-  console.log(selectedSpeciment)
   const dispatch = useDispatch()
   return (
     <div className="flex h-full flex-col items-baseline gap-2">
@@ -60,7 +59,7 @@ const CustomMethodVariables = () => {
         onClick={() => {
           dispatch(saveCustomVariables(selectedSpeciment))
         }}
-        className="mt-auto self-end rounded border p-1 bg-lime-100 "
+        className="mt-auto self-end rounded border bg-lime-100 p-1 "
       >
         Kaydet
       </button>

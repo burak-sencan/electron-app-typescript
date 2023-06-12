@@ -1,8 +1,11 @@
-const en = {
+const tr = {
   translation: {
     login: 'Giriş ',
-    logout: 'Çıkış '
+    welcome: 'Merhaba',
+    logout: 'Çıkış ',
+    version: 'Sürüm',
+    usbInfo:'USB Geçerli Değil !'
   }
 }
 
-export default en
+export default tr

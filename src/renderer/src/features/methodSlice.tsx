@@ -14,6 +14,9 @@ export const methodSlice = createSlice({
   name: 'method',
   initialState,
   reducers: {
+    setMethods: (state, action) => {
+      state.methods = action.payload
+    },
     createMethod: (state, action) => {
       state.methods.push(action.payload)
     },
@@ -41,7 +44,7 @@ export const methodSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { createMethod, setSelectedMethod,  deleteMethod, copyMethod } =
+export const { setMethods, createMethod, setSelectedMethod, deleteMethod, copyMethod } =
   methodSlice.actions
 
 export default methodSlice.reducer

@@ -1,7 +1,10 @@
 const en = {
   translation: {
-    login: 'login ',
-    logout: 'logout '
+    login: 'Login ',
+    welcome: 'Welcome',
+    logout: 'logout ',
+    version: 'Version',
+    usbInfo: 'USB Not Valid !'
   }
 }
 

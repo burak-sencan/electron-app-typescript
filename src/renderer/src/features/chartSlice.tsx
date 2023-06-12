@@ -18,7 +18,6 @@ export const chartSlice = createSlice({
   reducers: {
     update: (state, action) => {
       const { time, load, elengation } = action.payload
-      console.log(time, load, elengation)
       state.timeArr.push(time)
       state.loadArr.push(load)
       state.elengationArr.push(elengation)

@@ -21,9 +21,7 @@ export const specimenSlice = createSlice({
       state.speciments = [...state.speciments, { ...speciment }]
     },
     saveCustomVariables: (state, action) => {
-      console.log(action.payload)
       state.speciments.map((spcmnt, idx) => {
-        console.log(spcmnt)
         if (spcmnt.id === action.payload.id) {
           state.speciments[idx] = action.payload
           return
