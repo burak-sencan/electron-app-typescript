@@ -42,7 +42,7 @@ function createWindow(): void {
       if (mainWindow) {
         mainWindow.show()
       }
-    }, 500)
+    }, 2000)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {

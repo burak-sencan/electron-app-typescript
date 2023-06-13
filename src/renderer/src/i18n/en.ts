@@ -4,7 +4,13 @@ const en = {
     welcome: 'Welcome',
     logout: 'logout ',
     version: 'Version',
-    usbInfo: 'USB Not Valid !'
+    usbInfo: 'USB Not Valid !',
+
+    // Home
+    test: 'Test',
+    methods: 'Methods',
+    results: 'Results',
+    settings: 'Settings'
   }
 }
 

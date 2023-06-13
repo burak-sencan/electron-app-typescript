@@ -27,12 +27,12 @@ const LoginForm = () => {
   return (
     <>
       <form
-        className="flex w-1/2  grow flex-col items-center justify-center gap-8 space-y-6"
+        className="flex  grow flex-col items-center justify-center gap-16 space-y-6"
         onSubmit={handlelogin}
       >
         <h2 className="text-3xl font-extrabold">{t('welcome')}</h2>
         <input
-          className="w-full rounded-sm bg-slate-200 p-2 text-center focus:outline-none"
+          className="w-full rounded-sm border bg-inherit bg-slate-200 p-2 text-center focus:outline-none"
           type="password"
           name="password"
           id="password"
@@ -40,7 +40,7 @@ const LoginForm = () => {
           onChange={(e) => dispatch(onChange(e.target.value))}
         />
         <button
-          className="w-2/3 rounded-md border border-yellow-400 p-2 transition hover:bg-yellow-500/20"
+          className="w-2/3 rounded-sm border border-yellow-400 p-2 transition hover:bg-yellow-500/20"
           type="submit"
         >
           {t('login')}
