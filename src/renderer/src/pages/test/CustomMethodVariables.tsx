@@ -9,10 +9,12 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const CustomMethodVariables = () => {
   const { selectedSpeciment } = useSelector((state: RootState) => state.speciments)
+  const { selectedMethod } = useSelector((state: RootState) => state.method)
 
   const dispatch = useDispatch()
   return (
     <div className="flex h-full flex-col items-baseline gap-2">
+      <p>Selected method: {selectedMethod.definations.name.val} </p>
       <p>Custom Variables</p>
       <div className="overflow-auto">
         {selectedSpeciment?.method?.definations?.name?.customVal && (

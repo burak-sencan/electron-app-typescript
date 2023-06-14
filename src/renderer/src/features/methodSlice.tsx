@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Method } from '@renderer/types'
 
 export interface MethodState {
-  methods: any[]
-  selectedMethod: object
+  methods: Method[]
+  selectedMethod: any
 }
 
 const initialState: MethodState = {

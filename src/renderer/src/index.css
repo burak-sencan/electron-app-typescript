@@ -15,7 +15,32 @@
     background-position: bottom;
   }
 
+  .home-gradient {
+    background: hsla(205, 46%, 10%, 1);
 
+    background: linear-gradient(
+      125deg,
+      hsla(205, 46%, 10%, 1) 0%,
+      rgb(24, 26, 27) 50%,
+      rgb(0, 0, 0) 100%
+    );
+
+    background: -moz-linear-gradient(
+      125deg,
+      hsla(205, 46%, 10%, 1) 0%,
+      rgb(31, 34, 34) 50%,
+      rgb(0, 0, 0) 100%
+    );
+
+    background: -webkit-linear-gradient(
+      125deg,
+      hsla(205, 46%, 10%, 1) 0%,
+      rgb(39, 44, 45) 50%,
+      rgb(0, 0, 0) 100%
+    );
+
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0E1C26", endColorstr="#2A454B", GradientType=1 );
+  }
   .container {
     width: 150px;
     height: 150px;
@@ -34,5 +59,28 @@
   .item {
     background: rgb(0, 0, 0);
     border-radius: 100%;
+  }
+  .nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+  }
+
+  .button {
+    outline: none;
+    border: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: transparent;
   }
 }

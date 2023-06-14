@@ -1,9 +1,9 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('electron', {
-  login: async (data) => {
+  login: async (password) => {
     try {
-      const filePath = await ipcRenderer.invoke('login', data)
+      const filePath = await ipcRenderer.invoke('login', password)
       return filePath
     } catch (error) {
       console.error('IPC error:', error)

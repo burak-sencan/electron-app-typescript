@@ -1,24 +1,26 @@
-import { logout } from '@renderer/features/authSlice'
-import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import { motion, useCycle } from 'framer-motion'
 import { BsClipboardData } from 'react-icons/bs'
 import { vector } from '@renderer/assets'
+import { useRef } from 'react'
+import { Navigation } from './Navigation'
+import { MenuToggle } from './MenuToggle'
+import { useDimensions } from './use-dimensions'
 
 const container = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      delayChildren: 0.2,
-      staggerChildren: 0.1
+      delayChildren: 0.25,
+      staggerChildren: 0.15
     }
   }
 }
 
 const item = {
-  hidden: { opacity: 0, x: -50 },
+  hidden: { opacity: 0, x: -100 },
   visible: {
     x: 0,
     opacity: 1
@@ -26,21 +28,56 @@ const item = {
 }
 
 const Home = () => {
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [isOpen, toggleOpen] = useCycle(false, true)
 
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate('/')
+  const containerRef = useRef(null)
+  const { height } = useDimensions(containerRef)
+
+  const sidebar = {
+    open: (height = 1000) => ({
+      clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
+      transition: {
+        type: 'spring',
+        stiffness: 20,
+        restDelta: 2
+      }
+    }),
+    closed: {
+      clipPath: 'circle(30px at 40px 40px)',
+      transition: {
+        delay: 0.5,
+        type: 'spring',
+        stiffness: 400,
+        damping: 40
+      }
+    }
   }
-
   return (
     <div className="flex h-full justify-between overflow-hidden">
-      <div className="flex w-full gap-32">
-        <div className="center h-full w-2/5 bg-black">
-          <img src={vector} alt="logo" className="h-80 w-80  object-contain p-4 " />
+      <div className="flex w-full gap-32 ">
+        <div className="home-gradient flex h-full w-2/5">
+          <motion.nav
+            className="nav w-2/5"
+            initial={false}
+            animate={isOpen ? 'open' : 'closed'}
+            ref={containerRef}
+            custom={height}
+          >
+            <motion.div
+              className="absolute bottom-0 left-0 top-0 w-full bg-yellow-300/80 backdrop-blur-sm"
+              variants={sidebar}
+            />
+            <MenuToggle toggle={() => toggleOpen()} />
+            <Navigation />
+          </motion.nav>
+
+          <img
+            src={vector}
+            alt="logo"
+            className="pointer-events-none mx-auto h-80 w-80 self-center object-contain p-4 "
+          />
         </div>
+
         <motion.ul
           className="flex flex-col justify-center gap-2 2xl:gap-4"
           variants={container}
@@ -61,15 +98,6 @@ const Home = () => {
           <MotionLink text={'settings'} url={'/dashboard/settings'} transition={'translate-x-8'} />
         </motion.ul>
       </div>
-
-      <div className="flex flex-col gap-4 bg-slate-50 p-2">
-        <button className="h-12 w-12 rounded-full bg-slate-200 p-2 shadow-sm">User</button>
-        <button className="rounded-md bg-slate-200 p-2 shadow-sm">FAQ</button>
-
-        <button className="rounded-md bg-slate-200 p-2 shadow-sm" onClick={handleLogout}>
-          {t('logout')}
-        </button>
-      </div>
     </div>
   )
 }
@@ -78,12 +106,12 @@ export default Home
 const MotionLink = ({ text, url, transition }) => {
   const { t } = useTranslation()
   return (
-    <motion.li variants={item} className="">
+    <motion.li variants={item}>
       <Link
-        className={`${transition} center h-28  w-28 flex-col rounded-full shadow-xl transition hover:bg-slate-50 xl:h-32  xl:w-32 2xl:h-44 2xl:w-44`}
+        className={`${transition} center h-28 w-28  flex-col gap-2 rounded-full shadow-xl transition hover:bg-slate-50 xl:h-32  xl:w-32 2xl:h-44 2xl:w-44`}
         to={url}
       >
-        <BsClipboardData className="text-2xl text-yellow-400" />
+        <BsClipboardData className="text-3xl text-yellow-400" />
         {t(text)}
       </Link>
     </motion.li>

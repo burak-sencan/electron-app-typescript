@@ -52,13 +52,14 @@ function createWindow(): void {
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*////////////////////////////////////////// N O D E . J S /////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-  ipcMain.handle('login', async (_event, data) => {
+  ipcMain.handle('login', async (_event, password) => {
     const fileName = 'account.json'
     const filePath = path.join(app.getPath('documents'), fileName)
     try {
-      let account = fs.readFile(filePath, 'utf-8')
-      account = JSON.parse(account)
-      if (account.password === data) {
+      let accountData = fs.readFileSync(filePath, 'utf-8')
+      accountData = JSON.parse(accountData)
+
+      if (accountData.account.password === password) {
         return { status: true, message: 'Succes' }
       } else return { status: false, message: 'Fail' }
     } catch (error) {

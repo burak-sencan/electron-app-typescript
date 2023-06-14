@@ -1,22 +1,27 @@
+import { useState } from 'react'
 import { RootState } from '@renderer/app/store'
 import { login, onChange } from '@renderer/features/authSlice'
 import { FormEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
 const LoginForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { t } = useTranslation()
 
   const { password, isLogged } = useSelector((state: RootState) => state.auth)
+  const [isError, setIsError] = useState(false)
 
   const handlelogin = async (e: FormEvent) => {
     e.preventDefault()
     const result = await window.electron.login(password)
+    console.log(result)
     if (result.status) dispatch(login())
-    else console.log(result.message)
+    else {
+      console.log(result.message)
+      setIsError(!result.status)
+    }
   }
   useEffect(() => {
     if (isLogged) {
@@ -36,15 +41,23 @@ const LoginForm = () => {
           type="password"
           name="password"
           id="password"
+          required
           value={password}
+          onFocus={() => {
+            setIsError(false)
+          }}
           onChange={(e) => dispatch(onChange(e.target.value))}
         />
-        <button
-          className="w-2/3 rounded-sm border border-yellow-400 p-2 transition hover:bg-yellow-500/20"
-          type="submit"
-        >
-          {t('login')}
-        </button>
+
+        <div className="flex w-full flex-col items-center gap-4">
+          {isError && <p>{t('loginErrorMessage')}</p>}
+          <button
+            className=" w-2/3 rounded-sm border border-yellow-400 p-2 transition hover:bg-yellow-500/20"
+            type="submit"
+          >
+            {t('login')}
+          </button>
+        </div>
       </form>
       <div className="flex w-full justify-between self-end">
         <p className="self-end text-sm">{t('version')} 1.0.0</p>
