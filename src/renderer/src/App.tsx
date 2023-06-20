@@ -44,8 +44,8 @@ const App = () => {
     <div className="flex h-screen flex-col justify-between">
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route index path="home" element={<Home />} />
         <Route path="/dashboard" element={<Layout />}>
+        <Route index path="home" element={<Home />} />
           <Route path="home-test" element={<HomeTest />} />
           <Route path="test" element={<Test />} />
           <Route path="home-methods" element={<HomeMethods />} />

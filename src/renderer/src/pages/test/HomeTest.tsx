@@ -14,13 +14,13 @@ const HomeTest = () => {
   const columns = useMemo<MRT_ColumnDef<Method>[]>(
     () => [
       {
-        accessorKey: 'definations.name.val', //access nested data with dot notation
+        accessorKey: 'general.name.val', //access nested data with dot notation
         header: 'Name',
         size: 10
       },
       {
-        accessorKey: 'definations.defination.val', //access nested data with dot notation
-        header: 'Defination',
+        accessorKey: 'general.description.val', //access nested data with dot notation
+        header: 'Description',
         size: 10
       }
     ],
@@ -42,7 +42,7 @@ const HomeTest = () => {
           }}
         >
           {console.log(method)}
-          {method?.definations?.name.val}
+          {method?.general?.name.val}
         </button>
       ))} */}
 
@@ -68,14 +68,14 @@ const HomeTest = () => {
       />
       <button
         className="self-baseline border p-4"
-        disabled={selectedMethod?.definations?.name?.val === undefined}
+        disabled={selectedMethod?.general?.name?.val === undefined}
         onClick={() => {
           navigate('/dashboard/test')
         }}
       >
         Go to Test
       </button>
-      {selectedMethod?.definations?.name?.val}
+      {selectedMethod?.general?.name?.val}
 
     </div>
   )

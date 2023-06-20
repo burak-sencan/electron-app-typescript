@@ -14,16 +14,16 @@ const CustomMethodVariables = () => {
   const dispatch = useDispatch()
   return (
     <div className="flex h-full flex-col items-baseline gap-2">
-      <p>Selected method: {selectedMethod.definations.name.val} </p>
+      <p>Selected method: {selectedMethod.general.name.val} </p>
       <p>Custom Variables</p>
       <div className="overflow-auto">
-        {selectedSpeciment?.method?.definations?.name?.customVal && (
+        {selectedSpeciment?.method?.general?.name?.customVal && (
           <label>
             Name:
             <input
               className="ml-2 border"
               type="text"
-              value={selectedSpeciment.method.definations.name.val}
+              value={selectedSpeciment.method.general.name.val}
               onChange={(e) => {
                 dispatch(updateDefinationName(e.target.value))
               }}

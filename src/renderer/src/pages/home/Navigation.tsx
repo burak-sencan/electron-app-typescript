@@ -30,7 +30,7 @@ const variantsli = {
   }
 }
 
-export const Navigation = () => {
+export const Navigation = ({ isOpen }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -40,7 +40,10 @@ export const Navigation = () => {
     navigate('/')
   }
   return (
-    <motion.ul className="absolute top-24 w-full px-16" variants={variants}>
+    <motion.ul
+      className={`${!isOpen && 'pointer-events-none'} absolute top-24 w-full px-16`}
+      variants={variants}
+    >
       <motion.li
         variants={variantsli}
         className="linav flex items-center px-4 py-2  text-[#FF008C]"

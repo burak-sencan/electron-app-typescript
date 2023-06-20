@@ -29,11 +29,11 @@ export const methodSlice = createSlice({
       state.methods.push({
         ...action.payload,
         id: crypto.randomUUID(),
-        definations: {
-          ...action.payload.definations,
+        general: {
+          ...action.payload.general,
           name: {
-            ...action.payload.definations.name,
-            val: `${action.payload.definations.name.val} copy`
+            ...action.payload.general.name,
+            val: `${action.payload.general.name.val} copy`
           }
         }
       })

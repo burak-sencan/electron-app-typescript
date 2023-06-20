@@ -7,7 +7,7 @@ const en = {
     version: 'Version',
     usbInfo: 'USB Not Valid !',
     loginErrorMessage: 'Wrong Password!',
-    
+
     // Home
     test: 'Test',
     methods: 'Methods',

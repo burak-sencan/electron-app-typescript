@@ -5,6 +5,7 @@ import { FormEvent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+
 const LoginForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -16,7 +17,6 @@ const LoginForm = () => {
   const handlelogin = async (e: FormEvent) => {
     e.preventDefault()
     const result = await window.electron.login(password)
-    console.log(result)
     if (result.status) dispatch(login())
     else {
       console.log(result.message)
@@ -25,7 +25,7 @@ const LoginForm = () => {
   }
   useEffect(() => {
     if (isLogged) {
-      navigate('/home')
+      navigate('/dashboard/home')
     }
   }, [isLogged])
 

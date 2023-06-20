@@ -4,21 +4,17 @@ import { useSelector } from 'react-redux'
 
 const Results = () => {
   const { tests } = useSelector((state: RootState) => state.test)
-  const [randomNumber, setRandomNumber] = useState(null)
-
-  const generateRandomNumber = () => {
-    window.electron.generateRandomNumber()
-  }
+  const [randomNumber, setRandomNumber] = useState({ data: [], buffer: [] })
+  const [connectionStatus, setConnectionStatus] = useState(null)
 
   useEffect(() => {
-    window.electron.subscribeToRandomNumber((newRandomNumber) => {
-      setRandomNumber(newRandomNumber)
-      console.log(newRandomNumber)
+    ////modbus//
+    window.electron.subscribe((value) => {
+      setRandomNumber(value)
     })
-
-    return () => {
-      window.electron.unsubscribeFromRandomNumber()
-    }
+    window.electron.connectionStatus((value) => {
+      setConnectionStatus(value)
+    })
   }, [])
 
   return (
@@ -26,10 +22,43 @@ const Results = () => {
       {tests.map((test) => (
         <p key={test.id}>{test.name}</p>
       ))}
-      <button className="rounded-md border p-1" onClick={generateRandomNumber}>
-        Generate Random Number
+      <p>Random Number: {randomNumber?.data[0]}</p>
+      <hr />
+      <hr />
+      Status: {connectionStatus ? 'Online' : 'Offline'}
+      <hr />
+      <button
+        className=" m-4 rounded-full bg-yellow-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.connect()
+        }}
+      >
+        Connect
       </button>
-      <p>Random Number: {randomNumber}</p>
+      <button
+        className=" m-4 rounded-full bg-red-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.disconnect()
+        }}
+      >
+        Disconnect
+      </button>
+      <button
+        className=" m-4  bg-lime-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.up()
+        }}
+      >
+        Up
+      </button>
+      <button
+        className=" m-4  bg-lime-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.down()
+        }}
+      >
+        Down
+      </button>
     </div>
   )
 }

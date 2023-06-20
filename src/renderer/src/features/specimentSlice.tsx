@@ -36,10 +36,10 @@ export const specimenSlice = createSlice({
         ...state.selectedSpeciment,
         method: {
           ...state.selectedSpeciment.method,
-          definations: {
-            ...state.selectedSpeciment.method.definations,
+          general: {
+            ...state.selectedSpeciment.method.general,
             name: {
-              ...state.selectedSpeciment.method.definations.name,
+              ...state.selectedSpeciment.method.general.name,
               val: action.payload
             }
           }
