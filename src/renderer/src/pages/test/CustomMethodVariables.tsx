@@ -2,10 +2,14 @@ import { RootState } from '@renderer/app/store'
 import {
   saveCustomVariables,
   updateDefinationName,
-  updatePhysicalPropertiesRadious,
-  updatePhysicalPropertiesWidth
+  updateSpecimenSpecimenLabel,
+  updateSpecimenSpecimenLenght,
+  updateSpecimenSpecimenThickness,
+  updateSpecimenSpecimenWidth,
+  updateTestControlPreload
 } from '@renderer/features/specimentSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { motion } from 'framer-motion'
 
 const CustomMethodVariables = () => {
   const { selectedSpeciment } = useSelector((state: RootState) => state.speciments)
@@ -13,30 +17,11 @@ const CustomMethodVariables = () => {
 
   const dispatch = useDispatch()
 
-  const logCustomTrueItems = (methodState) => {
-    for (const category in methodState) {
-      if (methodState.hasOwnProperty(category)) {
-        const subCategoryObj = methodState[category]
-
-        for (const subCategory in subCategoryObj) {
-          if (subCategoryObj.hasOwnProperty(subCategory)) {
-            const subCategoryItem = subCategoryObj[subCategory]
-
-            if (subCategoryItem.custom) {
-              console.log(category, subCategory, subCategoryItem.val)
-            }
-          }
-        }
-      }
-    }
-  }
-  logCustomTrueItems(selectedMethod)
-
   return (
     <div className="flex h-full flex-col items-baseline gap-2">
       <p>Selected method: {selectedMethod.general.name.val} </p>
       <p>Custom Variables</p>
-      <div className="overflow-auto">
+      <div className="flex flex-col overflow-auto">
         {selectedSpeciment?.method?.general?.name?.customVal && (
           <label>
             Name:
@@ -50,30 +35,85 @@ const CustomMethodVariables = () => {
             />
           </label>
         )}
-        {selectedSpeciment?.method?.physicalProperties?.radious?.customVal && (
+        {selectedSpeciment?.method?.specimen?.specimenLabel?.customVal && (
           <label>
-            Radious:
+            Label:
             <input
               className="ml-2 border"
               type="text"
-              value={selectedSpeciment.method.physicalProperties.radious.val}
+              value={selectedSpeciment.method.specimen.specimenLabel.val}
               onChange={(e) => {
-                dispatch(updatePhysicalPropertiesRadious(e.target.value))
+                dispatch(updateSpecimenSpecimenLabel(e.target.value))
               }}
             />
           </label>
         )}
-        {selectedSpeciment?.method?.physicalProperties?.width?.customVal && (
+        {selectedSpeciment?.method?.specimen?.specimenWidth?.customVal && (
           <label>
             Width:
             <input
               className="ml-2 border"
               type="text"
-              value={selectedSpeciment.method.physicalProperties.width.val}
+              value={selectedSpeciment.method.specimen.specimenWidth.val}
               onChange={(e) => {
-                dispatch(updatePhysicalPropertiesWidth(e.target.value))
+                dispatch(updateSpecimenSpecimenWidth(e.target.value))
               }}
             />
+          </label>
+        )}
+        {selectedSpeciment?.method?.specimen?.specimenThickness?.customVal && (
+          <label>
+            Thickness:
+            <input
+              className="ml-2 border"
+              type="text"
+              value={selectedSpeciment.method.specimen.specimenThickness.val}
+              onChange={(e) => {
+                dispatch(updateSpecimenSpecimenThickness(e.target.value))
+              }}
+            />
+          </label>
+        )}
+        {selectedSpeciment?.method?.specimen?.specimenThickness?.customVal && (
+          <label>
+            Lenght:
+            <input
+              className="ml-2 border"
+              type="text"
+              value={selectedSpeciment.method.specimen.specimenLenght.val}
+              onChange={(e) => {
+                dispatch(updateSpecimenSpecimenLenght(e.target.value))
+              }}
+            />
+          </label>
+        )}
+        {selectedSpeciment?.method?.testControl?.preload?.customVal && (
+          <label className="flex">
+            Preload:
+            <div
+              className={`${
+                selectedSpeciment?.method?.testControl?.preload?.val === false
+                  ? 'justify-end bg-gray-400'
+                  : 'justify-start bg-yellow-400'
+              } flex  w-16 cursor-pointer rounded-[32px] shadow transition`}
+              onClick={() => {
+                dispatch(
+                  updateTestControlPreload(!selectedSpeciment?.method?.testControl?.preload?.val)
+                )
+              }}
+            >
+              <motion.div
+                layout
+                transition={{
+                  type: 'spring',
+                  stiffness: 700,
+                  damping: 30
+                }}
+                className="center h-8 w-8 select-none rounded-[32px] bg-white  text-sm"
+              >
+                {selectedSpeciment?.method?.testControl?.preload?.val ? 'on' : 'off'}
+              </motion.div>
+            </div>
           </label>
         )}
       </div>

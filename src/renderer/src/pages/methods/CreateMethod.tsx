@@ -65,12 +65,12 @@ const CreateMethod = () => {
         customVal: true,
         val: 0
       },
-      secimenThickness: {
+      specimenThickness: {
         custom: true,
         customVal: true,
         val: 0
       },
-      secimenLenght: {
+      specimenLenght: {
         custom: true,
         customVal: true,
         val: 0

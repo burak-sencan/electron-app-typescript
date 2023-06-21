@@ -35,12 +35,12 @@ interface Method {
       customVal: true
       val: number
     }
-    secimenThickness: {
+    specimenThickness: {
       custom: true
       customVal: true
       val: number
     }
-    secimenLenght: {
+    specimenLenght: {
       custom: true
       customVal: true
       val: number

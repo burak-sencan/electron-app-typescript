@@ -46,30 +46,76 @@ export const specimenSlice = createSlice({
         }
       }
     },
-    updatePhysicalPropertiesRadious: (state, action) => {
+    updateSpecimenSpecimenLabel: (state, action) => {
       state.selectedSpeciment = {
         ...state.selectedSpeciment,
         method: {
           ...state.selectedSpeciment.method,
-          physicalProperties: {
-            ...state.selectedSpeciment.method.physicalProperties,
-            radious: {
-              ...state.selectedSpeciment.method.physicalProperties.radious,
+          specimen: {
+            ...state.selectedSpeciment.method.specimen,
+            specimenLabel: {
+              ...state.selectedSpeciment.method.specimen.specimenLabel,
               val: action.payload
             }
           }
         }
       }
     },
-    updatePhysicalPropertiesWidth: (state, action) => {
+
+    updateSpecimenSpecimenWidth: (state, action) => {
       state.selectedSpeciment = {
         ...state.selectedSpeciment,
         method: {
           ...state.selectedSpeciment.method,
-          physicalProperties: {
-            ...state.selectedSpeciment.method.physicalProperties,
-            width: {
-              ...state.selectedSpeciment.method.physicalProperties.width,
+          specimen: {
+            ...state.selectedSpeciment.method.specimen,
+            specimenWidth: {
+              ...state.selectedSpeciment.method.specimen.specimenWidth,
+              val: action.payload
+            }
+          }
+        }
+      }
+    },
+    updateSpecimenSpecimenThickness: (state, action) => {
+      state.selectedSpeciment = {
+        ...state.selectedSpeciment,
+        method: {
+          ...state.selectedSpeciment.method,
+          specimen: {
+            ...state.selectedSpeciment.method.specimen,
+            specimenThickness: {
+              ...state.selectedSpeciment.method.specimen.specimenThickness,
+              val: action.payload
+            }
+          }
+        }
+      }
+    },
+    updateSpecimenSpecimenLenght: (state, action) => {
+      state.selectedSpeciment = {
+        ...state.selectedSpeciment,
+        method: {
+          ...state.selectedSpeciment.method,
+          specimen: {
+            ...state.selectedSpeciment.method.specimen,
+            specimenLenght: {
+              ...state.selectedSpeciment.method.specimen.specimenLenght,
+              val: action.payload
+            }
+          }
+        }
+      }
+    },
+    updateTestControlPreload: (state, action) => {
+      state.selectedSpeciment = {
+        ...state.selectedSpeciment,
+        method: {
+          ...state.selectedSpeciment.method,
+          testControl: {
+            ...state.selectedSpeciment.method.testControl,
+            preload: {
+              ...state.selectedSpeciment.method.testControl.preload,
               val: action.payload
             }
           }
@@ -79,14 +125,16 @@ export const specimenSlice = createSlice({
   }
 })
 
-// Aksiyon yaratıcıları her bir durum indirgeyici işlevi için otomatik olarak oluşturulur
 export const {
   saveCustomVariables,
   addSpeciment,
   setSelectedSpeciment,
   updateDefinationName,
-  updatePhysicalPropertiesRadious,
-  updatePhysicalPropertiesWidth
+  updateSpecimenSpecimenLabel,
+  updateSpecimenSpecimenWidth,
+  updateSpecimenSpecimenThickness,
+  updateSpecimenSpecimenLenght,
+  updateTestControlPreload
 } = specimenSlice.actions
 
 export default specimenSlice.reducer

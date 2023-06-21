@@ -60,21 +60,21 @@ const Specimen = ({ setMethodState, methodState }) => {
         handleChange={handleSpecimenPropertiesChange}
       />
       <Input
-        name={'secimenThickness'}
+        name={'specimenThickness'}
         type={'float'}
-        placeholder={'secimenThickness'}
-        value={methodState.specimen.secimenThickness.val}
-        custom={methodState.specimen.secimenThickness.custom}
-        customVal={methodState.specimen.secimenThickness.customVal}
+        placeholder={'specimenThickness'}
+        value={methodState.specimen.specimenThickness.val}
+        custom={methodState.specimen.specimenThickness.custom}
+        customVal={methodState.specimen.specimenThickness.customVal}
         handleChange={handleSpecimenPropertiesChange}
       />
       <Input
-        name={'secimenLenght'}
+        name={'specimenLenght'}
         type={'float'}
-        placeholder={'secimenLenght'}
-        value={methodState.specimen.secimenLenght.val}
-        custom={methodState.specimen.secimenLenght.custom}
-        customVal={methodState.specimen.secimenLenght.customVal}
+        placeholder={'specimenLenght'}
+        value={methodState.specimen.specimenLenght.val}
+        custom={methodState.specimen.specimenLenght.custom}
+        customVal={methodState.specimen.specimenLenght.customVal}
         handleChange={handleSpecimenPropertiesChange}
       />
     </div>
