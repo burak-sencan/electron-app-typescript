@@ -12,6 +12,26 @@ const CustomMethodVariables = () => {
   const { selectedMethod } = useSelector((state: RootState) => state.method)
 
   const dispatch = useDispatch()
+
+  const logCustomTrueItems = (methodState) => {
+    for (const category in methodState) {
+      if (methodState.hasOwnProperty(category)) {
+        const subCategoryObj = methodState[category]
+
+        for (const subCategory in subCategoryObj) {
+          if (subCategoryObj.hasOwnProperty(subCategory)) {
+            const subCategoryItem = subCategoryObj[subCategory]
+
+            if (subCategoryItem.custom) {
+              console.log(category, subCategory, subCategoryItem.val)
+            }
+          }
+        }
+      }
+    }
+  }
+  logCustomTrueItems(selectedMethod)
+
   return (
     <div className="flex h-full flex-col items-baseline gap-2">
       <p>Selected method: {selectedMethod.general.name.val} </p>

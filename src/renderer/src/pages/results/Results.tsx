@@ -9,7 +9,7 @@ const Results = () => {
 
   useEffect(() => {
     ////modbus//
-    window.electron.subscribe((value) => {
+    window.electron.subscribeLoadcell((value) => {
       setRandomNumber(value)
     })
     window.electron.connectionStatus((value) => {

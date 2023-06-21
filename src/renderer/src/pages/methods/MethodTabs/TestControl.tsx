@@ -1,5 +1,6 @@
 import Input from '@renderer/components/Input'
 import Select from '@renderer/components/Select'
+import Switch from '@renderer/components/Switch'
 import {
   dataRate,
   testControlMode,
@@ -35,10 +36,42 @@ const TestControl = ({ setMethodState, methodState }) => {
       }))
     }
   }
+  const handleTestControlSwitchChange = ({ name, value, type, checked }) => {
+    if (type === 'checkbox') {
+      setMethodState((prevState) => ({
+        ...prevState,
+        testControl: {
+          ...prevState.testControl,
+          [name]: {
+            ...prevState.testControl[name],
+            customVal: checked
+          }
+        }
+      }))
+    } else {
+      setMethodState((prevState) => ({
+        ...prevState,
+        testControl: {
+          ...prevState.testControl,
+          [name]: {
+            ...prevState.testControl[name],
+            val: value
+          }
+        }
+      }))
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
-      {/* preload */}
+      <Switch
+        name={'preload'}
+        placeholder={'preload'}
+        value={methodState.testControl.preload.val}
+        custom={methodState.testControl.preload.custom}
+        customVal={methodState.testControl.preload.customVal}
+        handleChange={handleTestControlSwitchChange}
+      />
       <Select
         options={testControlPreloadType}
         name={'preloadType'}

@@ -4,10 +4,11 @@ const Input = ({ name, placeholder, value, custom, customVal, type, handleChange
       {custom && (
         <label>
           <input type="checkbox" name={name} checked={customVal} onChange={handleChange} />
-          Custom ?
+
         </label>
       )}
 
+      {placeholder}
       <input
         name={name}
         className="border p-2"

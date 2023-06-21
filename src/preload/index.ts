@@ -104,9 +104,14 @@ contextBridge.exposeInMainWorld('electron', {
     ipcRenderer.send('down')
   },
 
-  subscribe: (callback) => {
-    ipcRenderer.on('subscribe', (_event, subscribe) => {
-      callback(subscribe)
+  subscribeLoadcell: (callback) => {
+    ipcRenderer.on('subscribeLoadcell', (_event, data) => {
+      callback(data)
+    })
+  },
+  subscribeElengation: (callback) => {
+    ipcRenderer.on('subscribeElengation', (_event, data) => {
+      callback(data)
     })
   },
   connectionStatus: (callback) => {

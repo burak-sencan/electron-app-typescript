@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron'
 import path, { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -7,6 +7,8 @@ import Modbus from 'modbus-serial'
 
 let mainWindow: BrowserWindow | null = null
 let splash: BrowserWindow
+let powerSaveBlockerEl
+
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -207,25 +209,38 @@ function createWindow(): void {
   })
 
   function read() {
-    const readLoop = () => {
+    const readLoadcell = () => {
       client
         .readHoldingRegisters(4196, 2)
         .then((data) => {
-          console.log('Read data:', data)
-          mainWindow?.webContents.send('subscribe', data)
+          console.log('subscribeLoadcell', data)
+          mainWindow?.webContents.send('subscribeLoadcell', data)
+          readElengation()
         })
         .catch((err) => {
           console.error('Modbus read error:', err)
         })
-        .finally(() => {
-          // Okuma işlemi devam ediyorsa tekrar çağır
-          setTimeout(() => {
-            readLoop()
-          }, 500)
-        })
     }
 
-    readLoop()
+    const readElengation = () => {
+      client
+        .readHoldingRegisters(4347, 2)
+        .then((data) => {
+          console.log('subscribeElengation', data)
+          mainWindow?.webContents.send('subscribeElengation', data)
+        })
+        .catch((err) => {
+          console.error('Modbus read error:', err)
+        })
+      .finally(() => {
+        // setTimeout(() => {
+        //   readLoadcell()
+        // }, 20)
+          readLoadcell()
+      })
+    }
+
+    readLoadcell()
   }
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -251,6 +266,7 @@ function createWindow(): void {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
+  powerSaveBlockerEl = powerSaveBlocker.start('prevent-display-sleep')
 
   // prevent second instance run
   // requestSingleInstanceLock returns true when only run one instance
@@ -287,6 +303,7 @@ app.on('activate', function () {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  powerSaveBlocker.stop(powerSaveBlockerEl)
   if (process.platform !== 'darwin') {
     app.quit()
   }
