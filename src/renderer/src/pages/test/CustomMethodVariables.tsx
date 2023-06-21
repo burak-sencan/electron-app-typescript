@@ -9,19 +9,41 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const CustomMethodVariables = () => {
   const { selectedSpeciment } = useSelector((state: RootState) => state.speciments)
+  const { selectedMethod } = useSelector((state: RootState) => state.method)
 
   const dispatch = useDispatch()
+
+  const logCustomTrueItems = (methodState) => {
+    for (const category in methodState) {
+      if (methodState.hasOwnProperty(category)) {
+        const subCategoryObj = methodState[category]
+
+        for (const subCategory in subCategoryObj) {
+          if (subCategoryObj.hasOwnProperty(subCategory)) {
+            const subCategoryItem = subCategoryObj[subCategory]
+
+            if (subCategoryItem.custom) {
+              console.log(category, subCategory, subCategoryItem.val)
+            }
+          }
+        }
+      }
+    }
+  }
+  logCustomTrueItems(selectedMethod)
+
   return (
     <div className="flex h-full flex-col items-baseline gap-2">
+      <p>Selected method: {selectedMethod.general.name.val} </p>
       <p>Custom Variables</p>
       <div className="overflow-auto">
-        {selectedSpeciment?.method?.definations?.name?.customVal && (
+        {selectedSpeciment?.method?.general?.name?.customVal && (
           <label>
             Name:
             <input
               className="ml-2 border"
               type="text"
-              value={selectedSpeciment.method.definations.name.val}
+              value={selectedSpeciment.method.general.name.val}
               onChange={(e) => {
                 dispatch(updateDefinationName(e.target.value))
               }}

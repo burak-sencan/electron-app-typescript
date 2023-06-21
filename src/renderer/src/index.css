@@ -14,23 +14,92 @@
     background-size: contain;
     background-position: bottom;
   }
-  .container {
-    width: 150px;
-    height: 150px;
-    display: grid;
-    overflow: hidden;
-    margin: 0;
-    list-style: none;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 15px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
+
+  .home-gradient {
+    background: hsla(205, 46%, 10%, 1);
+
+    background: linear-gradient(
+      125deg,
+      hsla(205, 46%, 10%, 1) 0%,
+      rgb(24, 26, 27) 50%,
+      rgb(0, 0, 0) 100%
+    );
+
+    background: -moz-linear-gradient(
+      125deg,
+      hsla(205, 46%, 10%, 1) 0%,
+      rgb(31, 34, 34) 50%,
+      rgb(0, 0, 0) 100%
+    );
+
+    background: -webkit-linear-gradient(
+      125deg,
+      hsla(205, 46%, 10%, 1) 0%,
+      rgb(39, 44, 45) 50%,
+      rgb(0, 0, 0) 100%
+    );
+
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0E1C26", endColorstr="#2A454B", GradientType=1 );
   }
-  
-  .item {
-    background: rgb(0, 0, 0);
-    border-radius: 100%;
+  .royal {
+    background: #141e30; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #243b55,
+      #141e30
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #243b55,
+      #141e30
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+
+  .home-method-setting-wrapper {
+    -webkit-clip-path: polygon(100% 0, 100% 50%, 100% 100%, 0% 100%, 25% 50%, 0% 0%);
+    clip-path: polygon(100% 0, 100% 50%, 100% 100%, 0% 100%, 25% 50%, 0% 0%);
+  }
+  .home-method {
+    background-image: url('./assets/method.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all 3s ease-in-out;
+  }
+  .home-setting {
+    background-image: url('./assets/settings.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all 3s ease-in-out;
+  }
+  .home-test {
+    background-image: url('./assets/cnc.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all 2s ease;
+    -webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 0 50%, 0% 0%);
+    clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 0 50%, 0% 0%);
+  }
+
+  .home-result {
+    background-image: url('./assets/cnc2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+    clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+    transition: all 2s ease;
+  }
+
+  .home-method:hover,
+  .home-setting:hover {
+    background-position: 20%;
+  }
+  .home-result:hover,
+  .home-test:hover {
+    background-position: 40% 10%;
+  }
+
+  .home-text-wrapper {
+    -webkit-clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   }
 }

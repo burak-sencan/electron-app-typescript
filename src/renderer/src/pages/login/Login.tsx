@@ -1,20 +1,122 @@
 import LoginForm from './LoginForm'
+import { test } from '@renderer/assets'
+// import ReactEcharts from 'echarts-for-react'
 
 const Login = () => {
+  // const optionHeader = {
+  //   graphic: {
+  //     elements: [
+  //       {
+  //         type: 'text',
+  //         left: 'center',
+  //         top: 'center',
+  //         style: {
+  //           height: 8,
+  //           text: 'T E S L A',
+  //           fontFamily: 'sans-serif',
+  //           fontSize: 96,
+  //           fontWeight: 'bold',
+  //           lineDash: [0, 200],
+  //           lineDashOffset: 0,
+  //           fill: 'transparent',
+  //           stroke: 'white',
+  //           lineWidth: '0'
+  //         },
+  //         keyframeAnimation: {
+  //           duration: 3000,
+  //           loop: false,
+  //           keyframes: [
+  //             {
+  //               percent: 0.1,
+  //               style: {
+  //                 fill: 'transparent',
+  //                 lineDashOffset: 0,
+  //                 lineDash: [20, 0]
+  //               }
+  //             },
+  //             {
+  //               percent: 0.3,
+  //               style: {
+  //                 fill: 'transparent',
+  //                 lineDashOffset: 0,
+  //                 lineDash: [20, 0]
+  //               }
+  //             },
+
+  //             {
+  //               percent: 1,
+  //               style: {
+  //                 fill: '#fff'
+  //               }
+  //             }
+  //           ]
+  //         }
+  //       }
+  //     ]
+  //   }
+  // }
+  // const optionSub = {
+  //   graphic: {
+  //     elements: [
+  //       {
+  //         type: 'text',
+  //         left: 'center',
+  //         top: 'center',
+  //         style: {
+  //           text: 'Universal Testing Machine',
+  //           fontSize: 24,
+  //           fontWeight: '',
+  //           lineDash: [0, 200],
+  //           lineDashOffset: 0,
+  //           fill: 'transparent',
+  //           stroke: 'white',
+  //           lineWidth: '0'
+  //         },
+  //         keyframeAnimation: {
+  //           duration: 8000,
+  //           loop: false,
+  //           keyframes: [
+  //             {
+  //               percent: 0.1,
+  //               style: {
+  //                 fill: 'transparent',
+  //                 lineDashOffset: 2000,
+  //                 lineDash: [200, 0]
+  //               }
+  //             },
+  //             {
+  //               // Stop for a while.
+  //               percent: 0.9,
+  //               style: {
+  //                 fill: '#bbb'
+  //               }
+  //             },
+  //             {
+  //               percent: 1,
+  //               style: {
+  //                 fill: '#fff'
+  //               }
+  //             }
+  //           ]
+  //         },
+  //         animationEasing: 'quarticIn'
+  //       }
+  //     ]
+  //   }
+  // }
+
   return (
-    <div className="gradient flex h-screen ">
-      <div className="flex h-full w-2/5 flex-col items-center justify-between gap-4 bg-slate-900/50 p-4 text-yellow-500 backdrop-blur-md transition  focus-within:bg-slate-900/60">
+    <div className=" home-gradient overflow-hidde relative flex h-screen items-center justify-center ">
+      <video className="h-screen w-screen bg-black" autoPlay loop muted>
+        <source src={test} type="video/mp4" />
+      </video>
+      {/* <div className=" mr-auto w-3/5">
+        <ReactEcharts option={optionHeader} className="" />
+        <ReactEcharts option={optionSub} className="" />
+      </div> */}
+
+      <div className="absolute right-0 flex h-full w-2/5 flex-col items-center justify-between gap-4 bg-black/50 p-4 text-yellow-500 backdrop-blur-sm transition  focus-within:bg-black/80">
         <LoginForm />
-      </div>
-      <div className="flex w-3/5 items-center justify-center gap-16 rounded-lg ">
-        <div className=" self-start pt-[30%] text-center">
-          <h1 className="mb-3 font-mono font-extrabold tracking-[2rem] sm:text-4xl lg:text-6xl	">
-            TESLA
-          </h1>
-          <h2 className="font-mono font-extrabold tracking-[0.4rem] sm:text-xl lg:text-2xl">
-            Universal Test Cihazları
-          </h2>
-        </div>
       </div>
     </div>
   )

@@ -1,17 +1,20 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron'
 import path, { join } from 'path'
-// import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-const fs = require('fs')
+import fs from 'fs'
+import Modbus from 'modbus-serial'
+
 let mainWindow: BrowserWindow | null = null
 let splash: BrowserWindow
+let powerSaveBlockerEl
 
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    // fullscreen: true,
     center: true,
     show: false,
     autoHideMenuBar: true,
@@ -41,8 +44,9 @@ function createWindow(): void {
       splash.destroy()
       if (mainWindow) {
         mainWindow.show()
+        mainWindow.maximize()
       }
-    }, 500)
+    }, 20)
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -52,13 +56,14 @@ function createWindow(): void {
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*////////////////////////////////////////// N O D E . J S /////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-  ipcMain.handle('login', async (_event, data) => {
+  ipcMain.handle('login', async (_event, password) => {
     const fileName = 'account.json'
     const filePath = path.join(app.getPath('documents'), fileName)
     try {
-      let account = fs.readFile(filePath, 'utf-8')
-      account = JSON.parse(account)
-      if (account.password === data) {
+      let accountData: any = fs.readFileSync(filePath, 'utf-8')
+      accountData = JSON.parse(accountData)
+
+      if (accountData.account.password === password) {
         return { status: true, message: 'Succes' }
       } else return { status: false, message: 'Fail' }
     } catch (error) {
@@ -68,10 +73,14 @@ function createWindow(): void {
     }
   })
 
-  ipcMain.handle('openFile', async (_event, data) => {
-    const fileName = 'example.json'
-    const filePath = path.join(app.getPath('documents'), fileName)
+  ipcMain.handle('complateTest', async (_event, data) => {
+    const fileName = 'test.json'
+    const folderPath = path.join(app.getPath('documents'), 'tests')
+
+    const filePath = path.join(folderPath, fileName)
     let jsonData = JSON.stringify(data)
+
+    fs.mkdirSync(folderPath, { recursive: true })
     fs.writeFileSync(filePath, jsonData)
     return filePath
   })
@@ -97,7 +106,7 @@ function createWindow(): void {
   })
 
   ipcMain.handle('saveMethod', async (_event, data) => {
-    const fileName = `${data.definations.name.val}--${data.id.slice(8)}.json`
+    const fileName = `${data.general.name.val}--${data.id.slice(8)}.json`
     const folderPath = path.join(app.getPath('documents'), 'methods')
     const filePath = path.join(folderPath, fileName)
     let jsonData = JSON.stringify(data)
@@ -126,7 +135,7 @@ function createWindow(): void {
 
   ipcMain.handle('deleteMethod', async (_event, data) => {
     const folderPath = path.join(app.getPath('documents'), 'methods')
-    const fileName = `${data.definations.name.val}--${data.id.slice(8)}.json`
+    const fileName = `${data.general.name.val}--${data.id.slice(8)}.json`
     const filePath = path.join(folderPath, fileName)
     const targetFolder = path.join(app.getPath('documents'), 'recovery')
     const targetPath = path.join(app.getPath('documents'), 'recovery', fileName)
@@ -151,14 +160,88 @@ function createWindow(): void {
     })
   })
 
-  ipcMain.on('generateRandomNumber', (_event) => {
-    setInterval(() => {
-      const randomNumber = Math.floor(Math.random() * 100)
-      mainWindow?.webContents.send('randomNumber', randomNumber)
-    }, 50)
+  let client
 
-    // Aboneliği sonlandırmak için gerektiğinde clearInterval(interval) çağrılabilir.
+  ipcMain.on('connect', () => {
+    client = new Modbus()
+
+    client.on('connect', () => {
+      console.log('Modbus connection established.')
+      console.log('Connection status:', client.isOpen)
+    })
+    // open connection to a serial port
+    client.connectAsciiSerial(
+      'COM3',
+      {
+        baudRate: 9600,
+        parity: 'even',
+        stopBits: 1,
+        dataBits: 7
+      },
+      (err) => {
+        read()
+        if (err) {
+          console.error('Modbus connection error:', err)
+          mainWindow?.webContents.send('connectionStatus', client.isOpen)
+        } else {
+          console.log('Modbus connection established.')
+          mainWindow?.webContents.send('connectionStatus', client.isOpen)
+          console.log('Connection status:', client.isOpen)
+        }
+      }
+    )
+
+    client.setID(1)
   })
+  ipcMain.on('disconnect', () => {
+    client.close()
+    mainWindow?.webContents.send('connectionStatus', client.isOpen)
+  })
+
+  ipcMain.on('up', () => {
+    client.writeCoil(2058, true).then(read)
+    // client.writeCoil(2058, true)
+  })
+
+  ipcMain.on('down', () => {
+    client.writeCoil(2059, true).then(read)
+    // client.writeCoil(2059, true)
+  })
+
+  function read() {
+    const readLoadcell = () => {
+      client
+        .readHoldingRegisters(4196, 2)
+        .then((data) => {
+          console.log('subscribeLoadcell', data)
+          mainWindow?.webContents.send('subscribeLoadcell', data)
+          readElengation()
+        })
+        .catch((err) => {
+          console.error('Modbus read error:', err)
+        })
+    }
+
+    const readElengation = () => {
+      client
+        .readHoldingRegisters(4347, 2)
+        .then((data) => {
+          console.log('subscribeElengation', data)
+          mainWindow?.webContents.send('subscribeElengation', data)
+        })
+        .catch((err) => {
+          console.error('Modbus read error:', err)
+        })
+      .finally(() => {
+        // setTimeout(() => {
+        //   readLoadcell()
+        // }, 20)
+          readLoadcell()
+      })
+    }
+
+    readLoadcell()
+  }
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
@@ -183,6 +266,7 @@ function createWindow(): void {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
+  powerSaveBlockerEl = powerSaveBlocker.start('prevent-display-sleep')
 
   // prevent second instance run
   // requestSingleInstanceLock returns true when only run one instance
@@ -219,6 +303,7 @@ app.on('activate', function () {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  powerSaveBlocker.stop(powerSaveBlockerEl)
   if (process.platform !== 'darwin') {
     app.quit()
   }

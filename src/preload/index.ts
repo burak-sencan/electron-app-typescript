@@ -1,24 +1,31 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('electron', {
-  login: async (data) => {
+  hello: async () => {
+    const filePath = ipcRenderer.invoke('login')
+    return filePath
+  },
+
+  login: async (password) => {
     try {
-      const filePath = await ipcRenderer.invoke('login', data)
+      const filePath = await ipcRenderer.invoke('login', password)
       return filePath
     } catch (error) {
       console.error('IPC error:', error)
       throw error
     }
   },
-  openFile: async (data) => {
+
+  complateTest: async (data) => {
     try {
-      const filePath = await ipcRenderer.invoke('openFile', data)
+      const filePath = await ipcRenderer.invoke('complateTest', data)
       return filePath
     } catch (error) {
       console.error('IPC error:', error)
       throw error
     }
   },
+
   readSettings: async () => {
     try {
       const settings = await ipcRenderer.invoke('readSettings')
@@ -28,6 +35,7 @@ contextBridge.exposeInMainWorld('electron', {
       throw error
     }
   },
+
   saveSettings: async (data) => {
     try {
       const result = await ipcRenderer.invoke('saveSettings', data)
@@ -37,6 +45,7 @@ contextBridge.exposeInMainWorld('electron', {
       throw error
     }
   },
+
   saveMethod: async (data) => {
     try {
       const result = await ipcRenderer.invoke('saveMethod', data)
@@ -46,6 +55,7 @@ contextBridge.exposeInMainWorld('electron', {
       throw error
     }
   },
+
   getMethods: async () => {
     try {
       const result = await ipcRenderer.invoke('getMethods')
@@ -55,6 +65,7 @@ contextBridge.exposeInMainWorld('electron', {
       throw error
     }
   },
+
   deleteMethod: async (data) => {
     try {
       const result = await ipcRenderer.invoke('deleteMethod', data)
@@ -68,12 +79,45 @@ contextBridge.exposeInMainWorld('electron', {
   generateRandomNumber: () => {
     ipcRenderer.send('generateRandomNumber')
   },
+
   subscribeToRandomNumber: (callback) => {
     ipcRenderer.on('randomNumber', (_event, randomNumber) => {
       callback(randomNumber)
     })
   },
+
   unsubscribeFromRandomNumber: () => {
     ipcRenderer.removeAllListeners('randomNumber')
+  },
+
+  //-----------------
+  connect: () => {
+    ipcRenderer.send('connect')
+  },
+  disconnect: () => {
+    ipcRenderer.send('disconnect')
+  },
+  up: () => {
+    ipcRenderer.send('up')
+  },
+  down: () => {
+    ipcRenderer.send('down')
+  },
+
+  subscribeLoadcell: (callback) => {
+    ipcRenderer.on('subscribeLoadcell', (_event, data) => {
+      callback(data)
+    })
+  },
+  subscribeElengation: (callback) => {
+    ipcRenderer.on('subscribeElengation', (_event, data) => {
+      callback(data)
+    })
+  },
+  connectionStatus: (callback) => {
+    ipcRenderer.on('connectionStatus', (_event, connectionStatus) => {
+      callback(connectionStatus)
+    })
   }
+  //-----------------
 })

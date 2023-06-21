@@ -21,7 +21,7 @@ export default defineConfig({
         input: {
           splash: resolve(__dirname, 'src/renderer/splash.html'),
           index: resolve(__dirname, 'src/renderer/index.html'),
-          splashpng: resolve(__dirname, 'src/renderer/splash.png')
+          splashimg: resolve(__dirname, 'src/renderer/vector.webp')
         }
       }
     }

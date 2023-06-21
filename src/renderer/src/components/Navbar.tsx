@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
+import LiveDisplay from './LiveDisplay'
 
 const Navbar = () => {
   const location = useLocation()
@@ -39,7 +40,7 @@ const Navbar = () => {
   }
 
   const saveTest = async (speciments) => {
-    const result = await window.electron.openFile(speciments)
+    const result = await window.electron.complateTest(speciments)
     console.log(result)
   }
   const handleSaveSettings = async () => {
@@ -58,14 +59,16 @@ const Navbar = () => {
   }, [time])
 
   return (
-    <div className="flex items-center justify-between bg-slate-50  p-4">
+    <div className="flex items-center bg-slate-900 p-4 shadow">
       <div>
-        <Link className="center rounded-md border bg-slate-50 p-2" to="/home">
+        <Link className="center rounded-md border  bg-slate-50 p-2" to="/dashboard/home">
           Home
         </Link>
       </div>
+      <LiveDisplay />
+
       {location.pathname === '/dashboard/test' && (
-        <div className="flex gap-4">
+        <div className="flex gap-4 text-white">
           <button className="rounded-md border p-2" onClick={handleStart}>
             Start
           </button>
@@ -83,6 +86,7 @@ const Navbar = () => {
           </button>
         </div>
       )}
+      
       {location.pathname === '/dashboard/settings' && (
         <div className="flex gap-4">
           <button

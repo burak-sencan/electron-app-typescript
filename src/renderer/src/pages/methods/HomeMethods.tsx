@@ -21,7 +21,7 @@ const HomeMethods = () => {
       <hr />
       {methods.map((method, idx) => (
         <div className="flex gap-4" key={idx}>
-          {method.definations.name.val}
+          {method.general.name.val}
           <button onClick={() => {}} className="self-baseline border">
             Edit
           </button>
