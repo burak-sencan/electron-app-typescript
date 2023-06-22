@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react'
 
 const LiveDisplay = () => {
-  const [loadData, setLoadData] = useState({ data: [], buffer: [] })
-  const [elengation, setElengation] = useState({ data: [], buffer: [] })
+  const [loadData, setLoadData] = useState<number>()
+  const [elengation, setElengation] = useState<number>()
+
+  const readDWord = (x, y) => {
+    const low = x.toString(2)
+    const high = y.toString(2)
+    const binaryVal = high + low
+    return parseInt(binaryVal, 2)
+  }
 
   useEffect(() => {
     ////modbus//
@@ -10,10 +17,10 @@ const LiveDisplay = () => {
 
     window.electron.subscribeLoadcell((value) => {
       setLoadData(value)
-      console.log(value)
-    })
-    window.electron.subscribeElengation((value) => {
-      setElengation(value)
+      console.log(value.data)
+      setLoadData(readDWord(value.data[0], value.data[1]))
+      setElengation(readDWord(value.data[2], value.data[3]))
+      console.log(value.data[2], value.data[3])
     })
 
     return () => {
@@ -23,15 +30,13 @@ const LiveDisplay = () => {
 
   return (
     <div className="flex grow justify-center gap-4">
-      <div className="center w-1/12 rounded-md bg-yellow-400 py-4 text-xl">
-        {loadData?.data[0] ? loadData?.data[0] : 'No data'}
+      <div className="center  rounded-md bg-yellow-400 py-4 text-xl">
+        {loadData !== undefined ? loadData : 'No data'}
       </div>
-      <div className="center w-1/12 rounded-md bg-yellow-400 py-4 text-xl">
-        {elengation?.data[0] ? elengation?.data[0] : 'No data'}
+      <div className="center  rounded-md bg-yellow-400 py-4 text-xl">
+        {elengation !== undefined ? elengation : 'No data'}
       </div>
-      <div className="center w-1/12 rounded-md bg-yellow-400 py-4 text-xl">
-        {'No data'}
-      </div>
+      {/* <div className="center w- rounded-md bg-yellow-400 py-4 text-xl">{'No data'}</div> */}
     </div>
   )
 }

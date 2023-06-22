@@ -103,6 +103,9 @@ contextBridge.exposeInMainWorld('electron', {
   down: () => {
     ipcRenderer.send('down')
   },
+  setEncoderZero: () => {
+    ipcRenderer.send('setEncoderZero')
+  },
 
   subscribeLoadcell: (callback) => {
     ipcRenderer.on('subscribeLoadcell', (_event, data) => {

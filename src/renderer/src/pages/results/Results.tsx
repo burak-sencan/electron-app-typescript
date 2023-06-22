@@ -58,6 +58,14 @@ const Results = () => {
         }}
       >
         Down
+      </button> 
+      <button
+        className=" m-4  bg-lime-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.setEncoderZero()
+        }}
+      >
+        setEncoderZero
       </button>
     </div>
   )

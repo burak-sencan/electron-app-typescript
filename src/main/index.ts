@@ -201,12 +201,12 @@ function createWindow(): void {
 
   ipcMain.on('up', () => {
     client.writeCoil(2058, true).then(read)
-    // client.writeCoil(2058, true)
   })
-
   ipcMain.on('down', () => {
     client.writeCoil(2059, true).then(read)
-    // client.writeCoil(2059, true)
+  })
+  ipcMain.on('setEncoderZero', () => {
+    client.writeCoil(2299, true).then(read)
   })
 
   function read() {
@@ -216,7 +216,7 @@ function createWindow(): void {
       start = Date.now()
 
       client
-        .readHoldingRegisters(9096, 16)
+        .readHoldingRegisters(37768, 11)
         .then((data) => {
           // console.log('subscribeLoadcell', data)
           mainWindow?.webContents.send('subscribeLoadcell', data)
@@ -230,24 +230,6 @@ function createWindow(): void {
           //   readLoadcell()
           // }, 20)
           console.log(Date.now() - start)
-          readLoadcell()
-        })
-    }
-
-    const readElengation = () => {
-      client
-        .readHoldingRegisters(4347, 16)
-        .then((data) => {
-          console.log('subscribeElengation', data)
-          mainWindow?.webContents.send('subscribeElengation', data)
-        })
-        .catch((err) => {
-          console.error('Modbus read error:', err)
-        })
-        .finally(() => {
-          // setTimeout(() => {
-          //   readLoadcell()
-          // }, 20)
           readLoadcell()
         })
     }
