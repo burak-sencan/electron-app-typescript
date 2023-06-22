@@ -121,7 +121,7 @@ const CustomMethodVariables = () => {
         onClick={() => {
           dispatch(saveCustomVariables(selectedSpeciment))
         }}
-        className="mt-auto self-end rounded border bg-lime-100 p-1 "
+        className="mt-auto self-end rounded border bg-lime-100 p-1"
       >
         Kaydet
       </button>

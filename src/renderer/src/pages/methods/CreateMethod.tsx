@@ -78,8 +78,8 @@ const CreateMethod = () => {
     },
     testControl: {
       preload: {
-        custom: true,
-        customVal: true,
+        custom: false,
+        customVal: false,
         val: false
       },
       preloadType: {

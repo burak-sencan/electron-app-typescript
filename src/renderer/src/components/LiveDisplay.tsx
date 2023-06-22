@@ -10,6 +10,7 @@ const LiveDisplay = () => {
 
     window.electron.subscribeLoadcell((value) => {
       setLoadData(value)
+      console.log(value)
     })
     window.electron.subscribeElengation((value) => {
       setElengation(value)

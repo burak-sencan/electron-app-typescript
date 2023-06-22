@@ -192,6 +192,7 @@ function createWindow(): void {
     )
 
     client.setID(1)
+    // client.setTimeout(1000)
   })
   ipcMain.on('disconnect', () => {
     client.close()
@@ -209,22 +210,33 @@ function createWindow(): void {
   })
 
   function read() {
+    let start
     const readLoadcell = () => {
+      start = new Date()
+      start = Date.now()
+
       client
-        .readHoldingRegisters(4196, 2)
+        .readHoldingRegisters(9096, 16)
         .then((data) => {
-          console.log('subscribeLoadcell', data)
+          // console.log('subscribeLoadcell', data)
           mainWindow?.webContents.send('subscribeLoadcell', data)
-          readElengation()
+          // readElengation()
         })
         .catch((err) => {
           console.error('Modbus read error:', err)
+        })
+        .finally(() => {
+          // setTimeout(() => {
+          //   readLoadcell()
+          // }, 20)
+          console.log(Date.now() - start)
+          readLoadcell()
         })
     }
 
     const readElengation = () => {
       client
-        .readHoldingRegisters(4347, 2)
+        .readHoldingRegisters(4347, 16)
         .then((data) => {
           console.log('subscribeElengation', data)
           mainWindow?.webContents.send('subscribeElengation', data)
@@ -232,12 +244,12 @@ function createWindow(): void {
         .catch((err) => {
           console.error('Modbus read error:', err)
         })
-      .finally(() => {
-        // setTimeout(() => {
-        //   readLoadcell()
-        // }, 20)
+        .finally(() => {
+          // setTimeout(() => {
+          //   readLoadcell()
+          // }, 20)
           readLoadcell()
-      })
+        })
     }
 
     readLoadcell()
