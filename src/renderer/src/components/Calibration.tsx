@@ -63,7 +63,7 @@ const Calibration = () => {
             setshowManuelInput(true)
           }}
         >
-          Enter Manuel Val
+           Enter Manuel Calibration Val
         </button>
       </div>
 
