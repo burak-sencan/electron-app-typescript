@@ -107,7 +107,7 @@ const Calibration = () => {
       )}
       {showManuelInput && (
         <label htmlFor="input">
-          Enter Manuel Val
+          Enter Manuel Calibration Val
           <input
             type="number"
             className="border bg-slate-300"
