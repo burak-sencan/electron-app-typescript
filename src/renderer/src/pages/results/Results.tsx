@@ -1,31 +1,16 @@
 import { RootState } from '@renderer/app/store'
-import { useEffect, useState } from 'react'
+import Calibration from '@renderer/components/Calibration'
 import { useSelector } from 'react-redux'
 
 const Results = () => {
   const { tests } = useSelector((state: RootState) => state.test)
-  const [randomNumber, setRandomNumber] = useState({ data: [], buffer: [] })
-  const [connectionStatus, setConnectionStatus] = useState(null)
-
-  useEffect(() => {
-    ////modbus//
-    window.electron.subscribeLoadcell((value) => {
-      setRandomNumber(value)
-    })
-    window.electron.connectionStatus((value) => {
-      setConnectionStatus(value)
-    })
-  }, [])
 
   return (
     <div>
       {tests.map((test) => (
         <p key={test.id}>{test.name}</p>
       ))}
-      <p>Random Number: {randomNumber?.data[0]}</p>
       <hr />
-      <hr />
-      Status: {connectionStatus ? 'Online' : 'Offline'}
       <hr />
       <button
         className=" m-4 rounded-full bg-yellow-400 p-4 active:bg-yellow-200"
@@ -58,7 +43,7 @@ const Results = () => {
         }}
       >
         Down
-      </button> 
+      </button>
       <button
         className=" m-4  bg-lime-400 p-4 active:bg-yellow-200"
         onClick={() => {
@@ -67,6 +52,9 @@ const Results = () => {
       >
         setEncoderZero
       </button>
+      <div className="border">
+        <Calibration />
+      </div>
     </div>
   )
 }

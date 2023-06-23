@@ -8,6 +8,8 @@ import Modbus from 'modbus-serial'
 let mainWindow: BrowserWindow | null = null
 let splash: BrowserWindow
 let powerSaveBlockerEl
+let client
+let mode: string
 
 function createWindow(): void {
   // Create the browser window.
@@ -98,6 +100,7 @@ function createWindow(): void {
   })
 
   ipcMain.handle('saveSettings', async (_event, data) => {
+    console.log(data)
     const fileName = 'settings.json'
     const filePath = path.join(app.getPath('documents'), fileName)
     let jsonData = JSON.stringify(data)
@@ -160,8 +163,6 @@ function createWindow(): void {
     })
   })
 
-  let client
-
   ipcMain.on('connect', () => {
     client = new Modbus()
 
@@ -171,7 +172,7 @@ function createWindow(): void {
     })
     // open connection to a serial port
     client.connectAsciiSerial(
-      'COM3',
+      'COM10',
       {
         baudRate: 9600,
         parity: 'even',
@@ -184,9 +185,8 @@ function createWindow(): void {
           console.error('Modbus connection error:', err)
           mainWindow?.webContents.send('connectionStatus', client.isOpen)
         } else {
-          console.log('Modbus connection established.')
+          console.log('Modbus connection established. Connection status:', client.isOpen);
           mainWindow?.webContents.send('connectionStatus', client.isOpen)
-          console.log('Connection status:', client.isOpen)
         }
       }
     )
@@ -194,47 +194,60 @@ function createWindow(): void {
     client.setID(1)
     // client.setTimeout(1000)
   })
+
   ipcMain.on('disconnect', () => {
     client.close()
     mainWindow?.webContents.send('connectionStatus', client.isOpen)
   })
 
   ipcMain.on('up', () => {
-    client.writeCoil(2058, true).then(read)
+    mode = 'up'
   })
+
   ipcMain.on('down', () => {
-    client.writeCoil(2059, true).then(read)
+    mode = 'down'
   })
   ipcMain.on('setEncoderZero', () => {
-    client.writeCoil(2299, true).then(read)
+    mode = 'setEncoderZero'
   })
 
   function read() {
-    let start
-    const readLoadcell = () => {
-      start = new Date()
-      start = Date.now()
+    client
+      .readHoldingRegisters(37768, 11)
+      .then((data) => {
+        mainWindow?.webContents.send('subscribeLoadcell', data)
+        if (mode === 'up') up()
+        else if (mode === 'down') down()
+        else if (mode === 'setEncoderZero') setEncoderZero()
+      })
+      .catch((err) => {
+        console.error('Modbus read error:', err)
+      })
+      .finally(() => {
+        setTimeout(read, 2000)
+      })
+  }
 
-      client
-        .readHoldingRegisters(37768, 11)
-        .then((data) => {
-          // console.log('subscribeLoadcell', data)
-          mainWindow?.webContents.send('subscribeLoadcell', data)
-          // readElengation()
-        })
-        .catch((err) => {
-          console.error('Modbus read error:', err)
-        })
-        .finally(() => {
-          // setTimeout(() => {
-          //   readLoadcell()
-          // }, 20)
-          console.log(Date.now() - start)
-          readLoadcell()
-        })
-    }
+  // Function to handle "up" command
+  function up() {
+    client
+      .writeCoil(2058, true)
+      .then(() => (mode = ''))
+      .catch((err) => console.error('Modbus write error:', err))
+  }
 
-    readLoadcell()
+  // Function to handle "down" command
+  function down() {
+    client
+      .writeCoil(2059, true)
+      .then(() => (mode = ''))
+      .catch((err) => console.error('Modbus write error:', err))
+  }
+  function setEncoderZero() {
+    client
+      .writeCoil(2299, true)
+      .then(() => (mode = ''))
+      .catch((err) => console.error('Modbus write error:', err))
   }
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */

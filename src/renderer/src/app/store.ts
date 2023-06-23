@@ -5,6 +5,7 @@ import specimentReducer from '@renderer/features/specimentSlice'
 import methodReducer from '@renderer/features/methodSlice'
 import testReducer from '@renderer/features/testSlice'
 import userSettingReducer from '@renderer/features/userSettingSlice'
+import liveDataReducer from '@renderer/features/liveDataSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     speciments: specimentReducer,
     method: methodReducer,
     test: testReducer,
-    setting: userSettingReducer
+    setting: userSettingReducer,
+    liveData: liveDataReducer
   }
 })
 

@@ -7,10 +7,12 @@ export interface SettingState {
       showRowData: true
     }
     language: string
+    elengationCalibrateVal: number | undefined
   }
   settingsState: any
   unsavedTempSetting: any
   isChanged: boolean
+  elengationCalibrateVal: number | undefined
 }
 
 const initialState: SettingState = {
@@ -18,11 +20,13 @@ const initialState: SettingState = {
     appearance: {
       showRowData: true
     },
-    language: 'en'
+    language: 'en',
+    elengationCalibrateVal: undefined
   },
   settingsState: {},
   unsavedTempSetting: {},
-  isChanged: false
+  isChanged: false,
+  elengationCalibrateVal: undefined
 }
 
 export const settingSlice = createSlice({
@@ -49,12 +53,23 @@ export const settingSlice = createSlice({
       else {
         state.isChanged = false
       }
+    },
+    saveElengation: (state, action) => {
+      console.log(action.payload)
+      state.elengationCalibrateVal = action.payload
+      state.settingsState = { ...state.settingsState, elengationCalibrateVal: action.payload }
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { saveSettings, creaeteUnsavedTempSettings, saveLanguage, saveAppearence, changed } =
-  settingSlice.actions
+export const {
+  saveSettings,
+  creaeteUnsavedTempSettings,
+  saveLanguage,
+  saveAppearence,
+  changed,
+  saveElengation
+} = settingSlice.actions
 
 export default settingSlice.reducer
