@@ -172,7 +172,7 @@ function createWindow(): void {
     })
     // open connection to a serial port
     client.connectAsciiSerial(
-      'COM10',
+      'COM3',
       {
         baudRate: 9600,
         parity: 'even',

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import LiveDisplay from './LiveDisplay'
+import TestWarningModal from './TestWarningModal'
 
 const Navbar = () => {
   const location = useLocation()
@@ -17,6 +18,8 @@ const Navbar = () => {
   const [time, setTime] = useState(0)
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>()
   const { i18n } = useTranslation()
+  const [showTestWarningModal, setShowTestWarningModal] = useState<boolean>(false)
+  const [didShowTestWarningModal, setDidShowTestWarningModal] = useState<boolean>(false)
 
   const addRandomData = () => {
     const newLoad = time * 2 + Math.floor(Math.random() * 50)
@@ -25,18 +28,24 @@ const Navbar = () => {
   }
 
   const handleStart = () => {
-    setTime(0)
-    dispatch(stop())
-    let newIntervalId = setInterval(() => {
-      setTime((time) => time + 1)
-    }, 20)
+    if (!didShowTestWarningModal) {
+      setShowTestWarningModal(true)
+    } else {
+      setTime(0)
+      dispatch(stop())
+      let newIntervalId = setInterval(() => {
+        setTime((time) => time + 1)
+      }, 20)
 
-    setIntervalId(newIntervalId)
+      setIntervalId(newIntervalId)
+    }
   }
 
   // Stopping the interval
   const handleStop = () => {
     clearInterval(intervalId)
+    setShowTestWarningModal(false)
+    setDidShowTestWarningModal(false)
   }
 
   const saveTest = async (speciments) => {
@@ -84,9 +93,15 @@ const Navbar = () => {
           >
             Complate Test
           </button>
+          {showTestWarningModal && (
+            <TestWarningModal
+              setShowTestWarningModal={setShowTestWarningModal}
+              setDidShowTestWarningModal={setDidShowTestWarningModal}
+            />
+          )}
         </div>
       )}
-      
+
       {location.pathname === '/dashboard/settings' && (
         <div className="flex gap-4">
           <button

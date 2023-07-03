@@ -72,33 +72,40 @@ const TestControl = ({ setMethodState, methodState }) => {
         customVal={methodState.testControl.preload.customVal}
         handleChange={handleTestControlSwitchChange}
       />
-      <Select
-        options={testControlPreloadType}
-        name={'preloadType'}
-        placeholder={'preloadType val'}
-        value={methodState.testControl.preloadType.val}
-        custom={methodState.testControl.preloadType.custom}
-        customVal={methodState.testControl.preloadType.customVal}
-        handleChange={handleTestControlChange}
-      />
-      <Input
-        name={'preloadValue'}
-        type={'number'}
-        placeholder={'preloadValue val'}
-        value={methodState.testControl.preloadValue.val}
-        custom={methodState.testControl.preloadValue.custom}
-        customVal={methodState.testControl.preloadValue.customVal}
-        handleChange={handleTestControlChange}
-      />
-      <Input
-        name={'preloadWaitTime'}
-        type={'number'}
-        placeholder={'preloadWaitTime val'}
-        value={methodState.testControl.preloadWaitTime.val}
-        custom={methodState.testControl.preloadWaitTime.custom}
-        customVal={methodState.testControl.preloadWaitTime.customVal}
-        handleChange={handleTestControlChange}
-      />
+      <div
+        className={`${
+          !methodState.testControl.preload.val ? ' bg-gray-200' : ''
+        } transition ease-in-out`}
+        style={{ pointerEvents: !methodState.testControl.preload.val ? 'none' : 'auto' }}
+      >
+        <Select
+          options={testControlPreloadType}
+          name={'preloadType'}
+          placeholder={'preloadType val'}
+          value={methodState.testControl.preloadType.val}
+          custom={methodState.testControl.preloadType.custom}
+          customVal={methodState.testControl.preloadType.customVal}
+          handleChange={handleTestControlChange}
+        />
+        <Input
+          name={'preloadValue'}
+          type={'number'}
+          placeholder={'preloadValue val'}
+          value={methodState.testControl.preloadValue.val}
+          custom={methodState.testControl.preloadValue.custom}
+          customVal={methodState.testControl.preloadValue.customVal}
+          handleChange={handleTestControlChange}
+        />
+        <Input
+          name={'preloadWaitTime'}
+          type={'number'}
+          placeholder={'preloadWaitTime val'}
+          value={methodState.testControl.preloadWaitTime.val}
+          custom={methodState.testControl.preloadWaitTime.custom}
+          customVal={methodState.testControl.preloadWaitTime.customVal}
+          handleChange={handleTestControlChange}
+        />
+      </div>
       <Input
         name={'testSpeed'}
         type={'number'}

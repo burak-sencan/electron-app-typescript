@@ -5,11 +5,12 @@ import {
   updateSpecimenSpecimenLabel,
   updateSpecimenSpecimenLenght,
   updateSpecimenSpecimenThickness,
-  updateSpecimenSpecimenWidth,
-  updateTestControlPreload
+  updateSpecimenSpecimenWidth
+  // updateTestControlPreload
 } from '@renderer/features/specimentSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion'
+import { Tooltip } from 'react-tooltip'
 
 const CustomMethodVariables = () => {
   const { selectedSpeciment } = useSelector((state: RootState) => state.speciments)
@@ -19,7 +20,13 @@ const CustomMethodVariables = () => {
 
   return (
     <div className="flex h-full flex-col items-baseline gap-2">
-      <p>Selected method: {selectedMethod.general.name.val} </p>
+      <p
+        data-tooltip-id="save-button"
+        data-tooltip-content="Hello to you too!"
+        data-tooltip-delay-show={500}
+      >
+        Selected method: {selectedMethod.general.name.val}{' '}
+      </p>
       <p>Custom Variables</p>
       <div className="flex flex-col overflow-auto">
         {selectedSpeciment?.method?.general?.name?.customVal && (
@@ -87,7 +94,7 @@ const CustomMethodVariables = () => {
             />
           </label>
         )}
-        {selectedSpeciment?.method?.testControl?.preload?.customVal && (
+        {/* {selectedSpeciment?.method?.testControl?.preload?.customVal && (
           <label className="flex">
             Preload:
             <div
@@ -115,16 +122,20 @@ const CustomMethodVariables = () => {
               </motion.div>
             </div>
           </label>
-        )}
+        )} */}
       </div>
       <button
+        data-tooltip-id="save-button"
+        data-tooltip-content="Hello to you too!"
+        data-tooltip-delay-show={500}
         onClick={() => {
           dispatch(saveCustomVariables(selectedSpeciment))
         }}
-        className="mt-auto self-end rounded border bg-lime-100 p-1"
+        className="mt-auto self-end rounded border bg-lime-300 p-1"
       >
         Kaydet
       </button>
+      <Tooltip id="save-button" place="top" className="info-tooltip" />
     </div>
   )
 }

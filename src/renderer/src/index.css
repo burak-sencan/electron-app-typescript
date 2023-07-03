@@ -2,10 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 @layer components {
+  /*--------------------T O O L S-------------------------------*/
   .center {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .cursor-not-allowed,
+  .cursor-not-allowed * {
+    cursor: not-allowed;
+  }
+
+  /*----------------------------------------------------------*/
+  .info-tooltip {
+    color: #222 !important ;
+    background-color: rgb(229, 211, 14) !important;
   }
   .gradient {
     background-color: #fafafa;

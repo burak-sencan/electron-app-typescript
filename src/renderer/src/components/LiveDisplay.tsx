@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 const LiveDisplay = () => {
   const { settingsState } = useSelector((state: RootState) => state.setting) // Access the counter state from the Redux store
 
-  const [isFirst, setIsFirst] = useState(true)
   const [loadData, setLoadData] = useState<number>()
   const [elengation, setElengation] = useState<number | string>()
   const dispatch = useDispatch()
@@ -60,7 +59,6 @@ const LiveDisplay = () => {
 
   // 
   useEffect(() => {
-    console.log('çalıştı mı')
     window.electron.unsubscribeFromRandomNumber()
     window.electron.subscribeLoadcell((value) => {
       const loadData = readDWord(value.data[0], value.data[1])

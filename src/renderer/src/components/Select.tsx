@@ -1,5 +1,4 @@
 const Select = ({ options, name, placeholder, value, custom, customVal, handleChange }) => {
-  
   return (
     <div className="flex">
       {custom && (
@@ -11,12 +10,7 @@ const Select = ({ options, name, placeholder, value, custom, customVal, handleCh
 
       <label>
         {placeholder}
-        <select
-          className="border p-2"
-          name={name}
-          value={value}
-          onChange={handleChange}
-        >
+        <select className="border p-2" name={name} value={value} onChange={handleChange}>
           {options.map((opt) => (
             <option value={opt.val} key={opt.id}>
               {opt.name}
