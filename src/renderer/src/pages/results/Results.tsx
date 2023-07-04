@@ -1,5 +1,6 @@
 import { RootState } from '@renderer/app/store'
 import Calibration from '@renderer/components/Calibration'
+import ExportTest from '@renderer/components/ExportTest'
 import { useSelector } from 'react-redux'
 
 const Results = () => {
@@ -54,6 +55,7 @@ const Results = () => {
       </button>
       <div className="border">
         <Calibration />
+        <ExportTest />
       </div>
     </div>
   )

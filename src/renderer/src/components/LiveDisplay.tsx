@@ -77,10 +77,10 @@ const LiveDisplay = () => {
 
   return (
     <div className="flex grow justify-center gap-4">
-      <div className="center  rounded-md bg-yellow-400 py-4 text-xl">
+      <div className="center w-32 rounded-md bg-yellow-400 py-4 text-xl">
         {loadData !== undefined ? loadData : 'No data'}
       </div>
-      <div className="center  rounded-md bg-yellow-400 py-4 text-xl">
+      <div className="center w-32 rounded-md bg-yellow-400 py-4 text-xl">
         {elengation !== undefined ? elengation : 'No data'}
       </div>
       {/* <div className="center w- rounded-md bg-yellow-400 py-4 text-xl">{'No data'}</div> */}

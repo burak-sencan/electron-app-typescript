@@ -1,9 +1,14 @@
 import { app, shell, BrowserWindow, ipcMain, powerSaveBlocker } from 'electron'
-import path, { join } from 'path'
+import { join } from 'path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import fs from 'fs'
+
 import Modbus from 'modbus-serial'
+import { login, readSettings } from './loginController'
+import { deleteMethod, getMethods, saveMethod } from './methodController'
+import { saveSettings } from './settingsController'
+import { complateTest } from './testController'
+import { down, setEncoderZero, up } from './machineController'
 
 let mainWindow: BrowserWindow | null = null
 let splash: BrowserWindow
@@ -58,109 +63,50 @@ function createWindow(): void {
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*////////////////////////////////////////// N O D E . J S /////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-  ipcMain.handle('login', async (_event, password) => {
-    const fileName = 'account.json'
-    const filePath = path.join(app.getPath('documents'), fileName)
-    try {
-      let accountData: any = fs.readFileSync(filePath, 'utf-8')
-      accountData = JSON.parse(accountData)
+  function read() {
+    client
+      .readHoldingRegisters(37768, 11)
+      .then((data) => {
+        mainWindow?.webContents.send('subscribeLoadcell', data)
+        if (mode === 'up') up(client)
+        else if (mode === 'down') down(client)
+        else if (mode === 'setEncoderZero') setEncoderZero(client)
+        mode = ''
+      })
+      .catch((err) => {
+        console.error('Modbus read error:', err)
+      })
+      .finally(() => {
+        setTimeout(read, 3000)
+      })
+  }
 
-      if (accountData.account.password === password) {
-        return { status: true, message: 'Succes' }
-      } else return { status: false, message: 'Fail' }
-    } catch (error) {
-      let jsonData = JSON.stringify({ account: { password: '0000' } })
-      fs.writeFileSync(filePath, jsonData)
-      return { status: true, message: 'Dosya oluşturuldu İlk şifreniz 0000' }
-    }
+  //starting
+  ipcMain.handle('login', (_event, password) => {
+    return login(password)
+  })
+  ipcMain.handle('readSettings', async () => {
+    return readSettings()
+  })
+
+  //settings
+  ipcMain.handle('saveSettings', async (_event, data) => {
+    return saveSettings(data)
+  })
+
+  //methods
+  ipcMain.handle('saveMethod', async (_event, data) => {
+    return saveMethod(data)
+  })
+  ipcMain.handle('getMethods', async () => {
+    return getMethods()
+  })
+  ipcMain.handle('deleteMethod', async (_event, data) => {
+    deleteMethod(data)
   })
 
   ipcMain.handle('complateTest', async (_event, data) => {
-    const fileName = 'test.json'
-    const folderPath = path.join(app.getPath('documents'), 'tests')
-
-    const filePath = path.join(folderPath, fileName)
-    let jsonData = JSON.stringify(data)
-
-    fs.mkdirSync(folderPath, { recursive: true })
-    fs.writeFileSync(filePath, jsonData)
-    return filePath
-  })
-
-  ipcMain.handle('readSettings', async () => {
-    const fileName = 'settings.json'
-    const filePath = path.join(app.getPath('documents'), fileName)
-    try {
-      const settings = fs.readFileSync(filePath, 'utf-8')
-      return settings
-    } catch (error) {
-      console.error('Dosya okuma hatası:', error)
-      return null
-    }
-  })
-
-  ipcMain.handle('saveSettings', async (_event, data) => {
-    console.log(data)
-    const fileName = 'settings.json'
-    const filePath = path.join(app.getPath('documents'), fileName)
-    let jsonData = JSON.stringify(data)
-    fs.writeFileSync(filePath, jsonData)
-    return filePath
-  })
-
-  ipcMain.handle('saveMethod', async (_event, data) => {
-    const fileName = `${data.general.name.val}--${data.id.slice(8)}.json`
-    const folderPath = path.join(app.getPath('documents'), 'methods')
-    const filePath = path.join(folderPath, fileName)
-    let jsonData = JSON.stringify(data)
-
-    fs.mkdirSync(folderPath, { recursive: true })
-    fs.writeFileSync(filePath, jsonData)
-
-    return filePath
-  })
-
-  ipcMain.handle('getMethods', async () => {
-    const folderPath = path.join(app.getPath('documents'), 'methods')
-    let methods: any[] = [] // Başlangıçta boş bir dizi olarak tanımlanır
-    if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath)
-    }
-    fs.readdirSync(folderPath).forEach((fileName) => {
-      const filePath = path.join(folderPath, fileName)
-      const fileContent = fs.readFileSync(filePath, 'utf8')
-      const methodObj = JSON.parse(fileContent)
-      methods.push(methodObj)
-    })
-
-    return methods
-  })
-
-  ipcMain.handle('deleteMethod', async (_event, data) => {
-    const folderPath = path.join(app.getPath('documents'), 'methods')
-    const fileName = `${data.general.name.val}--${data.id.slice(8)}.json`
-    const filePath = path.join(folderPath, fileName)
-    const targetFolder = path.join(app.getPath('documents'), 'recovery')
-    const targetPath = path.join(app.getPath('documents'), 'recovery', fileName)
-
-    fs.mkdirSync(targetFolder, { recursive: true })
-
-    fs.copyFile(filePath, targetPath, (error) => {
-      if (error) {
-        console.error('Dosya kopyalanamadı:', error)
-        return
-      }
-
-      fs.unlink(filePath, (error) => {
-        if (error) {
-          console.error('Dosya silinemedi:', error)
-          return
-        }
-
-        console.log('Dosya başarıyla silindi ve kopyalandı.')
-        return true
-      })
-    })
+    return complateTest(data)
   })
 
   ipcMain.on('connect', () => {
@@ -185,7 +131,7 @@ function createWindow(): void {
           console.error('Modbus connection error:', err)
           mainWindow?.webContents.send('connectionStatus', client.isOpen)
         } else {
-          console.log('Modbus connection established. Connection status:', client.isOpen);
+          console.log('Modbus connection established. Connection status:', client.isOpen)
           mainWindow?.webContents.send('connectionStatus', client.isOpen)
         }
       }
@@ -194,7 +140,6 @@ function createWindow(): void {
     client.setID(1)
     // client.setTimeout(1000)
   })
-
   ipcMain.on('disconnect', () => {
     client.close()
     mainWindow?.webContents.send('connectionStatus', client.isOpen)
@@ -203,7 +148,6 @@ function createWindow(): void {
   ipcMain.on('up', () => {
     mode = 'up'
   })
-
   ipcMain.on('down', () => {
     mode = 'down'
   })
@@ -211,44 +155,6 @@ function createWindow(): void {
     mode = 'setEncoderZero'
   })
 
-  function read() {
-    client
-      .readHoldingRegisters(37768, 11)
-      .then((data) => {
-        mainWindow?.webContents.send('subscribeLoadcell', data)
-        if (mode === 'up') up()
-        else if (mode === 'down') down()
-        else if (mode === 'setEncoderZero') setEncoderZero()
-      })
-      .catch((err) => {
-        console.error('Modbus read error:', err)
-      })
-      .finally(() => {
-        setTimeout(read, 2000)
-      })
-  }
-
-  // Function to handle "up" command
-  function up() {
-    client
-      .writeCoil(2058, true)
-      .then(() => (mode = ''))
-      .catch((err) => console.error('Modbus write error:', err))
-  }
-
-  // Function to handle "down" command
-  function down() {
-    client
-      .writeCoil(2059, true)
-      .then(() => (mode = ''))
-      .catch((err) => console.error('Modbus write error:', err))
-  }
-  function setEncoderZero() {
-    client
-      .writeCoil(2299, true)
-      .then(() => (mode = ''))
-      .catch((err) => console.error('Modbus write error:', err))
-  }
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
   /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */

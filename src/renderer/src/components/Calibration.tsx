@@ -44,7 +44,7 @@ const Calibration = () => {
   }
 
   return (
-    <div className="flex flex-col items-baseline gap-4">
+    <div className="flex flex-col items-baseline gap-4 border m-2">
       <h1 className="w-full text-center">Calibration Component</h1>
       <p>firstVal: {firstVal}</p>
       <p>secondVal: {secondVal}</p>

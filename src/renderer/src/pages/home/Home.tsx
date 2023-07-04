@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Sidebar from '@renderer/components/sidebar'
+import Sidebar from '@renderer/components/Sidebar'
+
 
 // const container = {
 //   hidden: { opacity: 0 },
