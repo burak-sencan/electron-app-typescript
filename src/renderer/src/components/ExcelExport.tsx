@@ -3,11 +3,11 @@ import { utils, writeFileXLSX } from 'xlsx'
 
 function ExcelExport({ setshowExcelExport }) {
   const data = [
-    { Name: 'Bill Clinton', Index: 42 },
-    { Name: 'GeorgeW Bush', Index: 43 },
-    { Name: 'Barack Obama', Index: 44 },
-    { Name: 'Donald Trump', Index: 45 },
-    { Name: 'Joseph Biden', Index: 46 }
+    { Name: 'Elengation', Index: 42 },
+    { Name: 'Elengation', Index: 43 },
+    { Name: 'Elengation', Index: 44 },
+    { Name: 'Elengation', Index: 45 },
+    { Name: 'Elengation', Index: 46 }
   ]
   const exportFile = useCallback(() => {
     const ws = utils.json_to_sheet(data)

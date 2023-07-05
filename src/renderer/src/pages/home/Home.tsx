@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Sidebar from '@renderer/components/Sidebar'
-
+import Sidebar from '@renderer/pages/home/Sidebar'
 
 // const container = {
 //   hidden: { opacity: 0 },
@@ -114,14 +113,6 @@ const Home = () => {
 
   return (
     <main className="flex h-full w-full">
-      {/* <div className="relative flex flex-[1] justify-center  border">
-        <div className="absolute left-2 top-2">user</div>
-        <div className="flex w-full justify-center gap-8">
-          <div className="center w-1/6 rounded-md border p-2">live 1</div>
-          <div className="center w-1/6 rounded-md border p-2">live 2</div>
-          <div className="center w-1/6 rounded-md border p-2">live 3</div>
-        </div>
-      </div> */}
       <Sidebar />
 
       <div className="flex grow-[11] bg-black">

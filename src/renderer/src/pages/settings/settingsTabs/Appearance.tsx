@@ -17,7 +17,7 @@ const Appearance = () => {
   }
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col p-4">
       <h3 className="mb-4 font-semibold text-gray-900 ">Test Screen</h3>
       <ul className="w-48 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900">
         <li className="w-full rounded-t-lg shadow ">

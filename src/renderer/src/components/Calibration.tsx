@@ -1,6 +1,7 @@
 import { RootState } from '@renderer/app/store'
 import { saveElengation } from '@renderer/features/userSettingSlice'
 import { useState } from 'react'
+import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Calibration = () => {
@@ -44,48 +45,49 @@ const Calibration = () => {
   }
 
   return (
-    <div className="flex flex-col items-baseline gap-4 border m-2">
-      <h1 className="w-full text-center">Calibration Component</h1>
-      <p>firstVal: {firstVal}</p>
-      <p>secondVal: {secondVal}</p>
-      <div className="flex flex-col items-baseline gap-2">
+    <div className=" flex w-full flex-col items-baseline gap-4 border p-4">
+      <div className="flex gap-8">
+        <p>First value: {firstVal}</p>
+        <p>Second value: {secondVal}</p>
+      </div>
+      <div className="flex items-baseline gap-2">
         <button
           disabled={showButtons}
-          className={`${showButtons ? 'bg-gray-400' : 'bg-lime-400'} rounded-full p-2`}
+          className={`${showButtons ? 'bg-gray-400' : 'bg-yellow-400'} rounded-md p-2`}
           onClick={initCalibrate}
         >
           Start Calibration
         </button>
         <button
           disabled={showButtons}
-          className={`${showButtons ? 'bg-gray-400' : 'bg-lime-400'} rounded-full p-2`}
+          className={`${showButtons ? 'bg-gray-400' : 'bg-yellow-400'} rounded-md p-2`}
           onClick={() => {
             setshowManuelInput(true)
           }}
         >
-           Enter Manuel Calibration Val
+          Enter Manuel Calibration Val
         </button>
       </div>
 
       {showButtons && (
-        <div className="flex">
+        <div className="flex gap-2">
           <button
-            className=" m-4  rounded-md bg-lime-400 p-4 active:bg-yellow-200"
+            className="center gap-4 rounded-md bg-lime-400 p-4 active:bg-yellow-200"
             onClick={() => {
               window.electron.up()
               setshowInput(true)
             }}
           >
-            Up
+            Up <AiOutlineArrowUp />
           </button>
           <button
-            className=" m-4  rounded-md bg-lime-400 p-4 active:bg-yellow-200"
+            className="center gap-4 rounded-md bg-lime-400 p-4 active:bg-yellow-200"
             onClick={() => {
               window.electron.down()
               setshowInput(true)
             }}
           >
-            Down
+            Down <AiOutlineArrowDown />
           </button>
         </div>
       )}

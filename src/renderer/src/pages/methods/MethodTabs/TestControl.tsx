@@ -63,48 +63,50 @@ const TestControl = ({ setMethodState, methodState }) => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <Switch
-        name={'preload'}
-        placeholder={'preload'}
-        value={methodState.testControl.preload.val}
-        custom={methodState.testControl.preload.custom}
-        customVal={methodState.testControl.preload.customVal}
-        handleChange={handleTestControlSwitchChange}
-      />
-      <div
-        className={`${
-          !methodState.testControl.preload.val ? ' bg-gray-200' : ''
-        } transition ease-in-out`}
-        style={{ pointerEvents: !methodState.testControl.preload.val ? 'none' : 'auto' }}
-      >
-        <Select
-          options={testControlPreloadType}
-          name={'preloadType'}
-          placeholder={'preloadType val'}
-          value={methodState.testControl.preloadType.val}
-          custom={methodState.testControl.preloadType.custom}
-          customVal={methodState.testControl.preloadType.customVal}
-          handleChange={handleTestControlChange}
+    <div className="flex flex-col gap-8 p-4">
+      <div className="flex flex-col gap-2">
+        <Switch
+          name={'preload'}
+          placeholder={'preload'}
+          value={methodState.testControl.preload.val}
+          custom={methodState.testControl.preload.custom}
+          customVal={methodState.testControl.preload.customVal}
+          handleChange={handleTestControlSwitchChange}
         />
-        <Input
-          name={'preloadValue'}
-          type={'number'}
-          placeholder={'preloadValue val'}
-          value={methodState.testControl.preloadValue.val}
-          custom={methodState.testControl.preloadValue.custom}
-          customVal={methodState.testControl.preloadValue.customVal}
-          handleChange={handleTestControlChange}
-        />
-        <Input
-          name={'preloadWaitTime'}
-          type={'number'}
-          placeholder={'preloadWaitTime val'}
-          value={methodState.testControl.preloadWaitTime.val}
-          custom={methodState.testControl.preloadWaitTime.custom}
-          customVal={methodState.testControl.preloadWaitTime.customVal}
-          handleChange={handleTestControlChange}
-        />
+        <div
+          className={`${
+            !methodState.testControl.preload.val ? ' bg-gray-200' : ''
+          } transition ease-in-out`}
+          style={{ pointerEvents: !methodState.testControl.preload.val ? 'none' : 'auto' }}
+        >
+          <Select
+            options={testControlPreloadType}
+            name={'preloadType'}
+            placeholder={'preloadType val'}
+            value={methodState.testControl.preloadType.val}
+            custom={methodState.testControl.preloadType.custom}
+            customVal={methodState.testControl.preloadType.customVal}
+            handleChange={handleTestControlChange}
+          />
+          <Input
+            name={'preloadValue'}
+            type={'number'}
+            placeholder={'preloadValue val'}
+            value={methodState.testControl.preloadValue.val}
+            custom={methodState.testControl.preloadValue.custom}
+            customVal={methodState.testControl.preloadValue.customVal}
+            handleChange={handleTestControlChange}
+          />
+          <Input
+            name={'preloadWaitTime'}
+            type={'number'}
+            placeholder={'preloadWaitTime val'}
+            value={methodState.testControl.preloadWaitTime.val}
+            custom={methodState.testControl.preloadWaitTime.custom}
+            customVal={methodState.testControl.preloadWaitTime.customVal}
+            handleChange={handleTestControlChange}
+          />
+        </div>
       </div>
       <Input
         name={'testSpeed'}

@@ -147,7 +147,7 @@ const CreateMethod = () => {
 
   return (
     <div className="">
-      <div className="flex  justify-between ">
+      <div className="flex justify-between border-b py-2">
         <div className="flex gap-4">
           {tabs.map((tab) => (
             <button
@@ -167,7 +167,10 @@ const CreateMethod = () => {
             </button>
           ))}
         </div>
-        <button className="" onClick={handleSaveMethod}>
+        <button
+          className="mr-4 rounded-md bg-lime-400 px-4 py-2 text-lg font-semibold text-white transition hover:bg-lime-300"
+          onClick={handleSaveMethod}
+        >
           Save
         </button>
       </div>

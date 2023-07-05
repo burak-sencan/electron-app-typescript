@@ -1,5 +1,4 @@
 import { RootState } from '@renderer/app/store'
-import Calibration from '@renderer/components/Calibration'
 import ExportTest from '@renderer/components/ExportTest'
 import { useSelector } from 'react-redux'
 
@@ -7,13 +6,15 @@ const Results = () => {
   const { tests } = useSelector((state: RootState) => state.test)
 
   return (
-    <div>
+    <div className="p-4">
       {tests.map((test) => (
-        <p key={test.id}>{test.name}</p>
+        <div className="flex gap-4" key={test.id}>
+          <p>{test.name}</p>
+          <ExportTest />
+        </div>
       ))}
       <hr />
-      <hr />
-      <button
+      {/* <button
         className=" m-4 rounded-full bg-yellow-400 p-4 active:bg-yellow-200"
         onClick={() => {
           window.electron.connect()
@@ -52,11 +53,7 @@ const Results = () => {
         }}
       >
         setEncoderZero
-      </button>
-      <div className="border">
-        <Calibration />
-        <ExportTest />
-      </div>
+      </button> */}
     </div>
   )
 }

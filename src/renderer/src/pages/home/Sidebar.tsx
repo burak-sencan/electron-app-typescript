@@ -38,12 +38,7 @@ const Sidebar = () => {
     >
       <motion.li variants={item}>
         <button className="w-full rounded-md bg-slate-800 p-2 transition hover:bg-slate-900">
-          FAQ
-        </button>
-      </motion.li>
-      <motion.li variants={item}>
-        <button className="w-full rounded-md bg-slate-800 p-2 transition hover:bg-slate-900">
-          FAQ
+          Help
         </button>
       </motion.li>
       <motion.li variants={item}>
@@ -57,7 +52,12 @@ const Sidebar = () => {
           onClick={handleLogout}
         >
           {t('logout')}
-        </button>{' '}
+        </button>
+      </motion.li>
+      <motion.li variants={item}>
+        <button className="w-full rounded-md bg-slate-800 p-2 transition hover:bg-slate-900">
+          Exit
+        </button>
       </motion.li>
     </motion.ul>
   )

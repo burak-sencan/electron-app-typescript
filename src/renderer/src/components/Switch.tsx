@@ -17,7 +17,7 @@ const Switch = ({ name, placeholder, value, custom, customVal, handleChange }) =
 
   return (
     <div className="flex gap-2">
-      {placeholder}
+      <p className="w-40 text-yellow-400">{placeholder}</p>
       {custom && (
         <label>
           <input
