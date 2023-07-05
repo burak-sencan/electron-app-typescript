@@ -89,7 +89,7 @@ const CustomMethodVariables = () => {
       </div>
       <button
         data-tooltip-id="save-button"
-        data-tooltip-content="Hello to you too!"
+        data-tooltip-content="Save Custom Variables for selected specimen!"
         data-tooltip-delay-show={500}
         onClick={() => {
           dispatch(saveCustomVariables(selectedSpeciment))

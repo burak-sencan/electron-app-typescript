@@ -27,7 +27,7 @@ const Test = () => {
           <TestGraphic />
         </div>
         {settingsState.appearance.showRowData && (
-          <div className="min-h-[50%] overflow-auto bg-white p-4 shadow-lg">
+          <div className=" grow overflow-auto bg-white p-4 shadow-lg">
             <RowData />
           </div>
         )}

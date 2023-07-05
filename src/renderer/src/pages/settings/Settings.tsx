@@ -3,7 +3,7 @@ import Appearance from './settingsTabs/Appearance'
 import General from './settingsTabs/General'
 import { useDispatch } from 'react-redux'
 import { changed, creaeteUnsavedTempSettings } from '@renderer/features/userSettingSlice'
-import Calibration from '@renderer/components/Calibration'
+import Calibration from '@renderer/pages/settings/settingsTabs/Calibration'
 
 const Settings = () => {
   const dispatch = useDispatch()

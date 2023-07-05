@@ -25,9 +25,9 @@ const StatusBar = () => {
       <p className="shadow ">
         Status:
         {connectionStatus ? (
-          <span className="text-lime-500">Online</span>
+          <span className="ml-2 text-lime-500">Online</span>
         ) : (
-          <span className="text-red-500">Offline</span>
+          <span className="ml-2 text-red-500">Offline</span>
         )}
       </p>
 

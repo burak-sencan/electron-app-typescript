@@ -152,6 +152,47 @@ const Calibration = () => {
       >
         Save elengationCalibrateVal val
       </button>
+
+      {/* <button
+        className=" m-4 rounded-full bg-yellow-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.connect()
+        }}
+      >
+        Connect
+      </button>
+      <button
+        className=" m-4 rounded-full bg-red-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.disconnect()
+        }}
+      >
+        Disconnect
+      </button>
+      <button
+        className=" m-4  bg-lime-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.up()
+        }}
+      >
+        Up
+      </button>
+      <button
+        className=" m-4  bg-lime-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.down()
+        }}
+      >
+        Down
+      </button>
+      <button
+        className=" m-4  bg-lime-400 p-4 active:bg-yellow-200"
+        onClick={() => {
+          window.electron.setEncoderZero()
+        }}
+      >
+        setEncoderZero
+      </button> */}
     </div>
   )
 }

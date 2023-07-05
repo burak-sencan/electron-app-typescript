@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import PdfExport from './PdfExport'
-import ExcelExport from './ExcelExport'
-import { useCallback } from 'react'
 import { utils, writeFileXLSX } from 'xlsx'
+import CsvExport from './CsvExport'
+
 const data = [
   { Name: 'Bill Clinton', Index: 42 },
   { Name: 'GeorgeW Bush', Index: 43 },
@@ -13,15 +13,13 @@ const data = [
 
 const ExportTest = () => {
   const [showPdfExport, setshowPdfExport] = useState(false)
-  const [showExcelExport, setshowExcelExport] = useState(false)
 
   const handleExcell = () => {
     const ws = utils.json_to_sheet(data)
     const wb = utils.book_new()
     utils.book_append_sheet(wb, ws, 'Data')
-    writeFileXLSX(wb, 'SheetJSReactAoO.xlsx')
+    writeFileXLSX(wb, 'Vector.xlsx')
   }
-  const handleCsv = () => {}
 
   return (
     <div>
@@ -40,15 +38,10 @@ const ExportTest = () => {
         >
           Excel
         </button>
-        <button
-          onClick={handleCsv}
-          className="h-8 w-16 rounded-md border bg-slate-50 hover:bg-slate-100"
-        >
-          Csv
-        </button>
+
+        <CsvExport />
       </div>
       {showPdfExport && <PdfExport setshowPdfExport={setshowPdfExport} />}
-      {showExcelExport && <ExcelExport setshowExcelExport={setshowExcelExport} />}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Page, Text, View, Document, StyleSheet, PDFViewer } from '@react-pdf/renderer'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const styles = StyleSheet.create({
   page: {
@@ -21,12 +22,13 @@ const MyDocument = () => (
     <Document>
       <Page size="A4" style={styles.page}>
         <Text
-          render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+          render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}\n Vector Scientific Testing Devices`}
           fixed
           style={{
             position: 'absolute',
             right: 10,
-            width: '80px',
+            width: '100%',
+            fontSize:'10px',
             textAlign: 'center',
             bottom: 10
           }}
@@ -34,20 +36,21 @@ const MyDocument = () => (
 
         <View style={styles.section}>
           <Text>Data</Text>
-          {data.loadcell.map((val) => (
-            <Text> {val}</Text>
+          {data.loadcell.map((val, idx) => (
+            <Text key={idx}> {val}</Text>
           ))}
         </View>
         <View style={styles.section}>
           <Text>Elengation</Text>
-          {data.elengation.map((val) => (
-            <Text> {val}</Text>
+          {data.elengation.map((val, idx) => (
+            <Text key={idx}> {val}</Text>
           ))}
         </View>
       </Page>
     </Document>
   </PDFViewer>
 )
+
 const data = {
   loadcell: [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5,
@@ -90,12 +93,12 @@ const PdfExport = ({ setshowPdfExport }) => {
         className="center relative h-full w-full flex-col gap-4 rounded-md bg-white p-8 text-lg text-black"
       >
         <button
-          className="absolute right-0 top-0 z-10 rounded-md border-black px-2 py-1"
+          className="absolute right-1 top-1 z-10 rounded-md border-black text-2xl text-red-400 "
           onClick={() => {
             setshowPdfExport(false)
           }}
         >
-          X
+          <AiOutlineCloseCircle />
         </button>
         <MyDocument />
       </motion.div>
