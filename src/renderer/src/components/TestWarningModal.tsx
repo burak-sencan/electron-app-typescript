@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { CiWarning } from 'react-icons/ci'
 
 const TestWarningModal = ({ setShowTestWarningModal, setDidShowTestWarningModal }) => {
   const container = {
@@ -29,17 +30,24 @@ const TestWarningModal = ({ setShowTestWarningModal, setDidShowTestWarningModal 
     >
       <motion.div
         variants={item}
-        className="center h-1/2 w-1/2 flex-col gap-4 rounded-md bg-yellow-400 p-8 text-lg text-black"
+        className="flex h-1/2 w-1/2 flex-col gap-4 rounded-md bg-yellow-300/80 p-8 text-lg text-black backdrop-blur-sm"
       >
-        <p>TestWarningModal</p>
+        <div className="flex items-center gap-8">
+          <CiWarning className="text-6xl text-red-600" />
+          <div>
+            <h1 className="text-2xl">Limit switch warning</h1>
+            <p>Check device upper and lower limits</p>
+          </div>
+        </div>
+
         <button
-          className="rounded-md border border-black px-4 py-2"
+          className="md mt-auto rounded-md bg-lime-400 px-4 py-2 shadow-lg transition hover:bg-lime-400/80"
           onClick={() => {
             setShowTestWarningModal(false)
             setDidShowTestWarningModal(true)
           }}
         >
-          Ok Go test
+          Ok Got It
         </button>
       </motion.div>
     </motion.div>

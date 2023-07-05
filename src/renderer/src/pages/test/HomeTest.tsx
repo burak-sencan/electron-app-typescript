@@ -31,7 +31,7 @@ const HomeTest = () => {
   }, [])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col p-4">
       {/* {methods.map((method, idx) => (
         <button
           // className={method === selectedMethod ? 'bg-slate-100' : ''}
@@ -45,7 +45,10 @@ const HomeTest = () => {
           {method?.general?.name.val}
         </button>
       ))} */}
-
+      <div className="my-4">
+        <p className="">Select method for test </p>
+        <hr />
+      </div>
       <MaterialReactTable
         columns={columns}
         data={methods}
@@ -67,7 +70,7 @@ const HomeTest = () => {
         })}
       />
       <button
-        className="self-baseline border p-4"
+        className="mt-4 bg-slate-100 self-baseline border p-4"
         disabled={selectedMethod?.general?.name?.val === undefined}
         onClick={() => {
           navigate('/dashboard/test')
@@ -75,8 +78,6 @@ const HomeTest = () => {
       >
         Go to Test
       </button>
-      {selectedMethod?.general?.name?.val}
-
     </div>
   )
 }

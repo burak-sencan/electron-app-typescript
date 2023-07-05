@@ -19,32 +19,21 @@ const CustomMethodVariables = () => {
   const dispatch = useDispatch()
 
   return (
-    <div className="flex h-full flex-col items-baseline gap-2">
+    <div className="flex h-full  flex-col items-baseline gap-2 ">
       <p
+        className="font-semibold "
         data-tooltip-id="save-button"
-        data-tooltip-content="Hello to you too!"
+        data-tooltip-content="Selected Method for test"
         data-tooltip-delay-show={500}
       >
-        Selected method: {selectedMethod.general.name.val}{' '}
+        Selected method: <span className="text-yellow-400">{selectedMethod.general.name.val}</span>
       </p>
+
       <p>Custom Variables</p>
-      <div className="flex flex-col overflow-auto">
-        {selectedSpeciment?.method?.general?.name?.customVal && (
-          <label>
-            Name:
-            <input
-              className="ml-2 border"
-              type="text"
-              value={selectedSpeciment.method.general.name.val}
-              onChange={(e) => {
-                dispatch(updateDefinationName(e.target.value))
-              }}
-            />
-          </label>
-        )}
+      <div className="flex flex-col gap-1 overflow-auto">
         {selectedSpeciment?.method?.specimen?.specimenLabel?.customVal && (
-          <label>
-            Label:
+          <label className="flex">
+            <p className="w-16">Label:</p>
             <input
               className="ml-2 border"
               type="text"
@@ -56,8 +45,9 @@ const CustomMethodVariables = () => {
           </label>
         )}
         {selectedSpeciment?.method?.specimen?.specimenWidth?.customVal && (
-          <label>
-            Width:
+          <label className="flex">
+            <p className="w-16">Width:</p>
+
             <input
               className="ml-2 border"
               type="text"
@@ -69,8 +59,9 @@ const CustomMethodVariables = () => {
           </label>
         )}
         {selectedSpeciment?.method?.specimen?.specimenThickness?.customVal && (
-          <label>
-            Thickness:
+          <label className="flex">
+            <p className="w-16">Thickness:</p>
+
             <input
               className="ml-2 border"
               type="text"
@@ -82,8 +73,9 @@ const CustomMethodVariables = () => {
           </label>
         )}
         {selectedSpeciment?.method?.specimen?.specimenThickness?.customVal && (
-          <label>
-            Lenght:
+          <label className="flex">
+            <p className="w-16">Lenght:</p>
+
             <input
               className="ml-2 border"
               type="text"
@@ -94,35 +86,6 @@ const CustomMethodVariables = () => {
             />
           </label>
         )}
-        {/* {selectedSpeciment?.method?.testControl?.preload?.customVal && (
-          <label className="flex">
-            Preload:
-            <div
-              className={`${
-                selectedSpeciment?.method?.testControl?.preload?.val === false
-                  ? 'justify-end bg-gray-400'
-                  : 'justify-start bg-yellow-400'
-              } flex  w-16 cursor-pointer rounded-[32px] shadow transition`}
-              onClick={() => {
-                dispatch(
-                  updateTestControlPreload(!selectedSpeciment?.method?.testControl?.preload?.val)
-                )
-              }}
-            >
-              <motion.div
-                layout
-                transition={{
-                  type: 'spring',
-                  stiffness: 700,
-                  damping: 30
-                }}
-                className="center h-8 w-8 select-none rounded-[32px] bg-white  text-sm"
-              >
-                {selectedSpeciment?.method?.testControl?.preload?.val ? 'on' : 'off'}
-              </motion.div>
-            </div>
-          </label>
-        )} */}
       </div>
       <button
         data-tooltip-id="save-button"
@@ -131,9 +94,9 @@ const CustomMethodVariables = () => {
         onClick={() => {
           dispatch(saveCustomVariables(selectedSpeciment))
         }}
-        className="mt-auto self-end rounded border bg-lime-300 p-1"
+        className="mt-auto self-end rounded border bg-lime-300  px-2 py-1"
       >
-        Kaydet
+        Save
       </button>
       <Tooltip id="save-button" place="top" className="info-tooltip" />
     </div>

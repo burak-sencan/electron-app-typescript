@@ -21,9 +21,14 @@ const StatusBar = () => {
   }, [])
 
   return (
-    <div className="flex items-center gap-32 bg-slate-100 px-4  text-sm ">
+    <div className="flex items-center gap-32 bg-yellow-400 px-4  text-sm ">
       <p className="shadow ">
-        Status: {connectionStatus ? <span className="text-lime-500">Online</span> : <span className="text-red-500">Offline</span>}
+        Status:
+        {connectionStatus ? (
+          <span className="text-lime-500">Online</span>
+        ) : (
+          <span className="text-red-500">Offline</span>
+        )}
       </p>
 
       {selectedMethod?.general?.name?.val === undefined ? (
@@ -32,7 +37,7 @@ const StatusBar = () => {
         <p>{selectedMethod?.general?.name?.val}</p>
       )}
 
-      <p className="shadow flex gap-2">
+      <p className="flex gap-2 shadow">
         <span>{time.toLocaleTimeString()}</span>
         <span>{time.toLocaleDateString()}</span>
       </p>
